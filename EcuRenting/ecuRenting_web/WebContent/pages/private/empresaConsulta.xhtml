@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="../../template/common/layout.xhtml">
+		<ui:define name="title">LOG :: Consulta Empresas</ui:define>
+		<ui:define name="content">
+			<h2 class="ui-state-default">Consulta de Empresas</h2>
+			<h:form id="formEdit">
+			<p:growl id="messages" showDetail="true" />
+				<p:tooltip />
+				<p:dataTable id="dataTable" var="empresa" value="#{empresaBacking.empresas}" paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+
+					<p:ajax event="rowToggle" listener="#{empresaBacking.onRowToggle}" update=":formEdit:messages" />
+					
+					<p:column>
+						<p:rowToggler />
+					</p:column>
+					
+					<p:column sortBy="#{empresa.id}" headerText="Código" filterBy="#{empresa.id}" filterMatchMode="contains">
+						<h:outputText value="#{empresa.id}" />
+					</p:column>
+					
+						
+					<p:column sortBy="#{empresa.nombre}" headerText="Nombre" filterBy="#{empresa.nombre}"
+						filterMatchMode="contains">
+						<h:outputText value="#{empresa.nombre}" />
+					</p:column>
+
+					<p:column sortBy="#{empresa.telefono}" headerText="Teléfono" filterBy="#{empresa.telefono}"
+						filterMatchMode="contains">
+						<h:outputText value="#{empresa.telefono}" />
+					</p:column>
+					<p:rowExpansion>
+						<h:panelGrid id="display" columns="2" cellpadding="4" style="width:300px;" styleClass="grid expandableGrid">
+
+				
+							<h:outputText value="Nombre:" />
+							<h:outputText id="nombre" value="#{empresa.nombre}" />
+
+							<h:outputText value="Id:" />
+							<h:outputText id="cedula" value="#{empresa.id}" />
+
+							<h:outputText value="Teléfono:" />
+							<h:outputText id="telefono" value="#{empresa.telefono}" />
+
+							<h:outputText value="Dirección:" />
+							<h:outputText id="direccion" value="#{empresa.direccion}" />
+
+						</h:panelGrid>
+					</p:rowExpansion>
+				</p:dataTable>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

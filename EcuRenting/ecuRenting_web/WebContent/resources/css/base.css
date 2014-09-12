@@ -1,0 +1,139 @@
+/* 
+    Document   : base
+    Created on : 04/04/2013, 02:33:35 PM
+    Author     : joselo
+    Description:
+        Base styles for the app
+*/
+root {
+	display: block;
+}
+
+body {
+	font-family: arial, helvetica, sans-serif;
+}
+
+#container {
+	/*width: 1100px;
+	height: 600px;*/
+	width: 95%;
+	height: 90%;
+	margin: auto;
+}
+
+#menu {
+	width: 214.5px;
+	/*height: 600px;*/
+	height: 700px;
+	float: left;
+	margin: auto;
+	margin-right: 0.5%;
+	/*border-right: solid #716048 1px; /*#219BD8*/
+	/*background-color: #EAE8DD;*/
+	box-shadow: 2px 2px 5px #777777;
+}
+
+#tieredMenu {
+	width: 201.5px;
+}
+
+#logo {
+	/*border-bottom: solid #fbcb09 1px;*/
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+#logo img {
+	padding-bottom: 5px;
+	padding-left: 5px;
+	padding-top: 5px;
+}
+
+#user {
+	/*border-bottom: solid #fbcb09 1px;*/
+	color: #c77405;
+	font-size: 0.8em;
+	text-align: center;
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+}
+
+#main {
+	/*width: 855.6px;*/
+	/*height: 600px;*/
+	height: 700px;
+	/*float: left;*/
+	margin: auto;
+	padding-left: 10px;
+	padding-right: 10px;
+	/*border-left: solid #716048 1px;*/
+	/*border-left: solid #219BD8 1px;
+	border-right: solid #fbcb09 1px;*/
+	box-shadow: 2px 2px 5px #777777;
+	text-align: center;
+	overflow-x: hidden;
+}
+
+#footer {
+	color: #AAAAAA;
+	width: 1100px;
+	height: 40px;
+	margin: auto;
+	margin-top: 5px;
+	text-align: center;
+	font-size: 0.7em;
+	padding-top: 5px;
+}
+
+#footer a {
+	text-decoration: none;
+	color: #AAAAAA
+}
+
+#frmContent {
+	width: 100%;
+	height: 100%;
+	border: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+#frmLogout a {
+	color: #4076cE; /*#FFA744;*/
+	font-size: 1em;
+	text-align: left;
+	text-decoration: none;
+}
+
+#frmLogout a:hover {
+	color: #2056AE; /*#c77405;*/
+	font-weight: bold;
+}
+
+#imgBackgroundHome {
+	opacity: 0.2;
+	filter: alpha(opacity =             20); /* For IE8 and earlier */
+}
+
+.expandableGrid {
+	background-color: white;
+}
+
+.center {
+	text-align: center;
+}
+
+/*
+ * Override a los estilos de PrimeFaces
+ */
+.ui-menuitem-link {
+	font-size: 0.8em;
+}
+
+.wizardTopMargin ul {
+	margin-bottom: 15px;
+}
+
+div.ui-dialog-content{
+	padding-top: 1em !important;
+}

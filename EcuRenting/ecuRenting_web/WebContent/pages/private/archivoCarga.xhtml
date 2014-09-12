@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<script type="text/javascript" src="../../js/eventsMap.js"></script>
+
+</h:head>
+<h:body>
+
+	<ui:composition template="../../template/common/layout.xhtml">
+		<ui:define name="title">SGE :: Carga de Archivos</ui:define>
+		<ui:define name="content">
+			<h2 class="ui-state-default">Carga de Archivos</h2>
+			<h:form id="formEdit">
+				<p:growl id="growl" showDetail="true" />
+				<p:tooltip />
+				
+				<p:dataTable id="dataTable" var="archivo"
+					value="#{archivoBacking.archivos}" paginator="true" rows="5"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+
+					<p:column>
+						<p:splitButton id="splitBtn" value="Editar"
+							title="Haz clic para editar el Archivo actual"
+							update=":formEdit :frmEditArchivo"
+							oncomplete="dlgEditArchivo.show()" icon="ui-icon-pencil">
+							<f:setPropertyActionListener value="#{archivo}"
+								target="#{archivoBacking.selectedArchivo}" />
+							<p:menuitem value="Eliminar" onclick="confirmation.show()"
+								icon="ui-icon-trash">
+								<f:setPropertyActionListener value="#{archivo}"
+									target="#{archivoBacking.selectedArchivo}" />
+							</p:menuitem>
+						</p:splitButton>
+					</p:column>
+
+					<p:column headerText="Código" sortBy="#{archivo.id}" orderBy="#{archivo.id}"
+						filterBy="#{archivo.id}" filterMatchMode="contains">
+						<h:outputText value="#{archivo.id}" />
+					</p:column>
+					
+
+					<p:column sortBy="#{archivo.descripcion}" headerText="Título"
+						filterBy="#{archivo.descripcion}" filterMatchMode="contains">
+						<h:outputText value="#{archivo.descripcion}" />
+					</p:column>
+
+				</p:dataTable>
+
+				<br />
+				<p:commandButton id="btnNuevoArchivo" icon="ui-icon-plusthick"
+					title="Haz clic para cargar un nuevo Archivo"
+					onclick="dlgNuevoArchivo.show();" value="Nuevo" />
+
+				<p:confirmDialog id="confirmDialog"
+					message="Estas seguro que deseas eliminar el archivo actual?"
+					header="Confirma tu acción" severity="alert"
+					widgetVar="confirmation">
+					<p:commandButton id="confirm" value="Si"
+						update=":formEdit :frmNuevoArchivo"
+						oncomplete="confirmation.hide()"
+						actionListener="#{archivoBacking.eliminarArchivo()}" />
+					<p:commandButton id="decline" value="No"
+						onclick="confirmation.hide()" type="button" />
+				</p:confirmDialog>
+
+			</h:form>
+
+
+		
+			<h:form id="frmNuevoArchivo" enctype="multipart/form-data">
+				<p:dialog id="dialogoNuevoArchivo" widgetVar="dlgNuevoArchivo"
+					modal="true" resizable="false" header="Creación Nuevo Archivo">
+					<h:panelGrid columns="2" cellpadding="5">
+				
+					<h:outputLabel for="archivo" value="Título: " />
+						<p:inputText id="titulo" label="Titulo"
+							value="#{archivoBacking.archivo.descripcion}"/>
+					</h:panelGrid>  
+					
+						<br />
+				<br />		
+				<h:panelGrid columns="3" cellpadding="5">
+		        <h:outputText value="Tipo de Archivo: " />  
+		        <p:selectOneButton value="#{archivoBacking.tipo}" required="true">  
+		            <f:selectItem itemLabel="Imágen" itemValue="1" />  
+		            <f:selectItem itemLabel="Documento" itemValue="2" />  
+		            <f:selectItem itemLabel="Mapa" itemValue="3" />  
+		        </p:selectOneButton>  
+  
+   			 </h:panelGrid>  
+				<br />
+				<br />
+				<h:panelGrid columns="4">
+					<h:outputLabel for="archivo" value="Subir Archivo:  " />
+
+					<p:growl id="messages" showDetail="true" />
+					<p:fileUpload id="archivo" label="Buscar"
+						uploadLabel="Subir archivo" cancelLabel="Cancelar" required="true"
+						invalidFileMessage="Tipo de archivo no Válido"
+						fileUploadListener="#{archivoBacking.handleFileUpload}"
+						mode="advanced"
+						allowTypes="/(\.|\/)(pdf|jpeg|xlsx|xls|doc|docx|png)$/" />
+					<p:message for="archivo" />
+
+				<br />
+				<br />
+					<f:facet name="footer">
+						<br />
+						<p:commandButton id="btnGuardarNuevo" value="Guardar"
+							actionListener="#{archivoBacking.crearArchivoNuevo}"
+							update=":frmNuevoArchivo :formEdit" />
+							<p:commandButton id="btnCancelarEdicion" value="Cancelar"
+								onclick="dlgNuevoArchivo.hide()" />
+					</f:facet>
+				</h:panelGrid>
+			</p:dialog>
+			</h:form>
+
+
+			<h:form id="frmEditArchivo" enctype="multipart/form-data">
+
+				<p:dialog id="dialogoEditArchivo" widgetVar="dlgEditArchivo"
+					modal="true" resizable="false" header="Edición de Archivos">
+					<h:panelGrid columns="2" cellpadding="2">
+
+										
+					<h:outputLabel for="archivo" value="Título: " />
+						<p:inputText id="titulo" label="Titulo"
+							value="#{archivoBacking.selectedArchivo.descripcion}"/>
+					</h:panelGrid>  
+					
+						<br />
+				<br />						
+					 <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">  
+  
+		        <h:outputText value="Tipo de Archivo: " />  
+		        <p:selectOneButton value="#{archivoBacking.tipo}">  
+		            <f:selectItem itemLabel="Imágen" itemValue="1" />  
+		            <f:selectItem itemLabel="Documento" itemValue="2" />  
+		            <f:selectItem itemLabel="Mapa" itemValue="3" />  
+		        </p:selectOneButton>  
+  
+   			 </h:panelGrid>  
+				<br />
+				<br />
+	<h:panelGrid columns="4" cellpadding="5">
+
+							<h:outputLabel for="archivo" value="Subir Archivo:  " />
+		  
+							<p:growl id="messages" showDetail="true"/> 
+								<p:fileUpload id="archivo" label="Buscar"
+								uploadLabel="Subir archivo" cancelLabel="Cancelar" required="true"
+								invalidFileMessage="Tipo de archivo no Válido"
+								fileUploadListener="#{archivoBacking.handleFileUpload}"				
+								mode="advanced"  allowTypes="/(\.|\/)(pdf|jpeg|xlsx|xls|doc|docx|png)$/" />
+							<p:message for="archivo"  />		  
+
+						  </h:panelGrid>
+						  
+						  	<br />
+				<h:panelGrid columns="4">
+						<f:facet name="footer">
+							<br />
+							<p:commandButton id="btnGuardarEdicion" value="Guardar"
+								actionListener="#{archivoBacking.actualizarArchivo}"
+								update=":frmEditArchivo :formEdit" />
+							<p:commandButton id="btnCancelarEdicion" value="Cancelar"
+								onclick="dlgEditArchivo.hide()" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

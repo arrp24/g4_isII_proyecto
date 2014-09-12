@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="../../template/common/layout.xhtml">
+		<ui:define name="title">LOG :: Edición Empresas</ui:define>
+		<ui:define name="content">
+			<h2 class="ui-state-default">Edición de Empresa</h2>
+			<h:form id="formEdit">
+				<p:growl id="growl" showDetail="true" escape="false" />
+				<p:tooltip />
+				<p:dataTable id="dataTable" var="empresa" value="#{empresaBacking.empresas}" paginator="true" rows="5"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+
+					<p:column>
+						<p:splitButton id="splitBtn" value="Editar" title="Haz clic para editar la empresa actual"
+							update=":formEdit :frmEditEmpresa" oncomplete="dlgEditEmpresa.show()" icon="ui-icon-pencil">
+							<f:setPropertyActionListener value="#{empresa}" target="#{empresaBacking.selectedEmpresa}" />
+							<p:menuitem value="Eliminar" onclick="confirmation.show()" icon="ui-icon-trash">
+								<f:setPropertyActionListener value="#{empresa}" target="#{empresaBacking.selectedEmpresa}" />
+							</p:menuitem>
+						</p:splitButton>
+					</p:column>
+					
+					<p:column sortBy="#{empresa.nombre}" headerText="Nombre" filterBy="#{empresa.nombre}" filterMatchMode="contains">
+						<h:outputText value="#{empresa.nombre}" />
+					</p:column>
+
+					<p:column sortBy="#{empresa.telefono}" headerText="Telefono" filterBy="#{empresa.telefono}" filterMatchMode="contains">
+						<h:outputText value="#{empresa.telefono}" />
+					</p:column>	
+					
+           </p:dataTable>
+				<br />
+				<p:commandButton id="btnNuevoEmpresa" icon="ui-icon-plusthick" title="Haz clic para agregar una nueva Empresa"
+					onclick="dlgNuevoEmpresa.show();" value="Nuevo" />
+
+				<p:confirmDialog id="confirmDialog" message="Estas seguro que deseas borrar la empresa actual?"
+					header="Confirma tu acción" severity="alert" widgetVar="confirmation">
+					<p:commandButton id="confirm" value="Si" update=":formEdit :frmNuevoEmpresa" oncomplete="confirmation.hide()"
+						actionListener="#{empresaBacking.eliminarEmpresa()}" />
+					<p:commandButton id="decline" value="No" onclick="confirmation.hide()" type="button" />
+				</p:confirmDialog>
+
+			</h:form>
+
+			<h:form id="frmNuevoEmpresa">
+				<p:dialog id="dialogoNuevoEmpresa" widgetVar="dlgNuevoEmpresa" modal="true" resizable="false"
+					header="Creación Nuevo Empresa">
+					<h:panelGrid columns="2" cellpadding="5">
+					
+						<h:outputLabel for="nombreE" value="Nombre: *" />
+						<p:inputText id="nombreE" label="Nombre" value="#{empresaBacking.empresa.nombre}" required="true" />
+						
+						<h:outputLabel for="direccionN" value="Dirección: *" />
+						<p:inputText id="direccionN" label="Direccion" value="#{empresaBacking.empresa.direccion}" required="true" />
+
+						<h:outputLabel for="telefonoN" value="Teléfono: *" />
+						<p:inputText id="telefonoN" label="Teléfono" value="#{empresaBacking.empresa.telefono}" required="true" />
+						
+												
+						<f:facet name="footer">
+							<p:commandButton id="btnGuardarNuevo" value="Guardar" actionListener="#{empresaBacking.crearEmpresa()}"
+								update=":frmNuevoEmpresa :formEdit" />
+							<p:commandButton id="btnCancelarNuevo" value="Cancelar" onclick="dlgNuevoEmpresa.hide()" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="frmEditEmpresa">
+				<p:dialog id="dialogoEditEmpresa" widgetVar="dlgEditEmpresa" modal="true" resizable="false"
+					header="Edición de Empresa">
+					<h:panelGrid columns="2" cellpadding="5">
+
+			
+						<h:outputLabel for="nombreE" value="Nombre: *" />
+						<p:inputText id="nombreE" label="Nombre" value="#{empresaBacking.selectedEmpresa.nombre}" required="true" />
+
+						<h:outputLabel for="telefonoE" value="Teléfono: *" />
+						<p:inputText id="telefonoE" label="Teléfono" value="#{empresaBacking.selectedEmpresa.telefono}" required="true" />
+
+						<h:outputLabel for="direccionE" value="Dirección: *" />
+						<p:inputText id="direccionE" label="Dirección" value="#{empresaBacking.selectedEmpresa.direccion}" required="true" />
+
+								
+						<f:facet name="footer">
+							<p:commandButton id="btnGuardarEdicion" value="Guardar" actionListener="#{empresaBacking.actualizarEmpresa()}"
+								update=":frmEditEmpresa :formEdit" />
+							<p:commandButton id="btnCancelarEdicion" value="Cancelar" onclick="dlgEditEmpresa.hide()" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

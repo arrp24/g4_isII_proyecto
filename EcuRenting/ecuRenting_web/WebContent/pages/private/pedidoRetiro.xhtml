@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="../../template/common/layout.xhtml">
+		<ui:define name="title">LOG :: Edición Pedidos de Retiro</ui:define>
+		<ui:define name="content">
+			<h2 class="ui-state-default"><p:outputLabel value="#{authenticationBacking.rolPorUsuarioActual.usuario.nombre}" />: Edición de Pedidos de Retiro</h2>
+			<h:form id="formEdit">
+				<p:growl id="growl" showDetail="true" escape="false" />
+				<p:tooltip />
+				<p:dataTable id="dataTable" var="pedidoRetiro" value="#{pedidoRetiroBacking.pedidoRetiros}" paginator="true" rows="5"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+
+					<p:column>
+						<p:splitButton id="splitBtn" value="Editar" title="Haz clic para editar el pedio actual"
+							update=":formEdit :frmEditPedido" oncomplete="dlgEditPedido.show()" icon="ui-icon-pencil">
+							<f:setPropertyActionListener value="#{pedidoRetiro}" target="#{pedidoRetiroBacking.selectedPedidoRetiro}" />
+							<p:menuitem value="Eliminar" onclick="confirmation.show()" icon="ui-icon-trash">
+								<f:setPropertyActionListener value="#{pedidoRetiro}" target="#{pedidoRetiroBacking.selectedPedidoRetiro}" />
+							</p:menuitem>
+						</p:splitButton>
+					</p:column>
+					
+					<p:column sortBy="#{pedidoRetiro.id}" headerText="Codigo" filterBy="#{pedidoRetiro.id}" filterMatchMode="contains">
+						<h:outputText value="#{pedidoRetiro.id}" />
+					</p:column>
+
+					<p:column sortBy="#{pedidoRetiro.descripcion}" headerText="Descripcion" filterBy="#{pedidoRetiro.descripcion}" filterMatchMode="contains">
+						<h:outputText value="#{pedidoRetiro.descripcion}" />
+					</p:column>
+					
+					<p:column sortBy="#{pedidoRetiro.fecha}" headerText="Fecha" filterBy="#{pedidoRetiro.fecha}" filterMatchMode="contains">
+						<h:outputText value="#{pedidoRetiro.fecha}" />
+					</p:column>
+					
+					<p:column headerText="Detalle Retiro">
+						<p:splitButton id="splitAddBTN" value="Add" update=":formEdit :frmEditPedido" oncomplete="dlgDetalleOrden.show()" icon="ui-icon-circle-plus">
+								<f:setPropertyActionListener value="#{pedidoRetiro}" target="#{pedidoRetiroBacking.selectedPedidoRetiro}" />
+							<p:menuitem value="Edit" onclick="dlgEditDetalle.show()" icon="ui-icon-pencil">
+								<p:commandButton id="btnNuevoPedido" value="Edit" actionListener="#{pedidoRetiroBacking.setCodigoConsulta(pedidoRetiroBacking.selectedinventarioTransito.ordenPedido)}" 
+									icon="ui-icon-plusthick" title="Haz clic para editar el detalle del  pedido"
+									onclick="dlgEditDetalle.show();"  />
+							</p:menuitem>
+						</p:splitButton>					
+					</p:column>
+           </p:dataTable>
+           
+				<br />
+				<p:commandButton id="btnNuevoPedido" icon="ui-icon-plusthick" title="Haz clic para agregar un nuevo pedido"
+					onclick="dlgNuevoPedido.show();" value="Nuevo" />
+				<p:commandButton id="btnNuevaBodega" icon="ui-icon-plusthick" title="Haz clic para agregar una nueva bodega"
+					onclick="dlgNuevaBodega.show();" value="Add Bodega" />
+
+				<p:confirmDialog id="confirmDialog" message="Estas seguro que deseas borrar el pedidoRetiro actual?"
+					header="Confirma tu acción" severity="alert" widgetVar="confirmation">
+					<p:commandButton id="confirm" value="Si" update=":formEdit :frmNuevoPedido" oncomplete="confirmation.hide()"
+						actionListener="#{pedidoRetiroBacking.eliminarPedidoRetiro()}" />
+					<p:commandButton id="decline" value="No" onclick="confirmation.hide()" type="button" />
+				</p:confirmDialog>
+			</h:form>
+			
+	<h:form id="frmDetalleOrden" >
+			<p:dialog id="dialogoDetalleOrden" widgetVar="dlgDetalleOrden" modal="true" resizable="true"
+					header="Ingresar Detalle Orden" closable="false">			
+					<h:panelGrid columns="3"  class="ui-grid">
+        				<h:outputLabel for="basic" value="Número de Paquetes en la Orden: " />
+        				<p:spinner id="basic" value="#{pedidoRetiroBacking.spinner}" min="1" />
+        				<p:commandButton id="cargarOrden" update=":frmDetalleOrden:tablaDetalle" value="Cargar" actionListener="#{pedidoRetiroBacking.cargarOrden()}"/>
+        			</h:panelGrid>
+        			
+        			<p:growl id="messages" showDetail="true" />
+						<p:tooltip />
+        		
+					
+        	    <p:dataTable id="tablaDetalle" var="detallePedido" value="#{pedidoRetiroBacking.invTransito}" paginator="true" rows="5"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5">
+					
+					<p:ajax event="rowToggle" listener="#{inventarioTransitoBacking.onRowToggle}" update=":frmDetalleOrden:messages" />
+					
+					<p:column>
+						<p:rowToggler />
+					</p:column>	
+					
+					<p:column headerText=" Cliente" >
+						<p:selectOneMenu id="cliente" value="#{detallePedido.id_cliente}" panelStyle="width:160px" 
+                         effect="fade" var="t" style="width:220px" >
+						              <f:selectItem  itemValue="#{authenticationBacking.rolPorUsuarioActual.usuario.nombre}"
+						              itemLabel="#{authenticationBacking.rolPorUsuarioActual.usuario.nombre}" />
+       					</p:selectOneMenu>	
+       				</p:column>	
+					
+					<p:column sortBy="#{detallePedido.numPackete}" headerText="Num. Packete" >
+						<h:outputText value="#{detallePedido.numPackete}" />
+					</p:column>
+					<p:column  headerText="Descripcion" >
+						<h:inputText value="#{detallePedido.descripcion}" />
+					</p:column>
+					
+					<p:rowExpansion>
+						<h:panelGrid id="display" columns="2" cellpadding="4" style="width:300px;" styleClass="grid expandableGrid">
+							
+							<h:outputLabel value="Tipo" />
+									<p:selectOneMenu value="#{detallePedido.tipo}" panelStyle="width:160px" 
+			                         effect="fade"  style="width:220px" >
+									              <f:selectItem  itemValue="Caja" itemLabel="Caja" />
+									              <f:selectItem  itemValue="Bulto" itemLabel="Bulto" />
+									              <f:selectItem  itemValue="Costal" itemLabel="Costal" />
+									              <f:selectItem  itemValue="Botella" itemLabel="Botella" />
+									              <f:selectItem  itemValue="Tonel" itemLabel="Tonel" />
+									              <f:selectItem  itemValue="Caneca" itemLabel="Caneca" />
+			       					</p:selectOneMenu>
+							<h:outputLabel value="Unidad de Medida" />
+									<p:selectOneMenu value="#{detallePedido.uniMedia}" panelStyle="width:160px" 
+			                         effect="fade"  style="width:220px" >
+									              <f:selectItem  itemValue="Unidad" itemLabel="Unidad" />
+									              <f:selectItem  itemValue="cm3" itemLabel="Centímetros Cúbicos" />
+									              <f:selectItem  itemValue="m3" itemLabel="Metros Cúbicos" />
+									              <f:selectItem  itemValue="Kilogramo" itemLabel="Kilogramo" />
+									              <f:selectItem  itemValue="Gramo" itemLabel="Gramo" />
+									              <f:selectItem  itemValue="Libras" itemLabel="Libra" />
+									              <f:selectItem  itemValue="Litros" itemLabel="Litro" />
+									              <f:selectItem  itemValue="Galón" itemLabel="Galón" />
+			       					</p:selectOneMenu>
+							<h:outputLabel value="Cantidad" />	
+									<p:spinner value="#{detallePedido.medida}"  min="1" />
+						</h:panelGrid>
+					</p:rowExpansion>
+				</p:dataTable>
+						<f:facet name="footer">
+						
+							<p:commandButton id="btnGuardarNuevo"  update="@all" value="Guardar" actionListener="#{pedidoRetiroBacking.crearInventarioTransito()}"
+								/>
+							<p:commandButton id="btnCancelarNuevo" value="Cancelar" onclick="dlgDetalleOrden.hide()" update="@all" actionListener="#{pedidoRetiroBacking.cancelaCrearInventarioTransito()}" />
+						</f:facet>
+			</p:dialog>
+	</h:form>
+	
+	<h:form id="frmEditDetalle">
+				<p:dialog id="dialogoEditDetalle" widgetVar="dlgEditDetalle" modal="true" resizable="false"
+					header="Edición de Pedido">
+					<p:growl id="messages" showDetail="true" />
+						<p:tooltip />
+        			<p:dataTable id="tablaDetalle" var="detalleEditPedido" value="#{pedidoRetiroBacking.getInvTransito(pedidoRetiroBacking.codigo)}" paginator="true" rows="5"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5">
+					
+					<p:ajax event="rowToggle" listener="#{inventarioTransitoBacking.onRowToggle}" update=":frmEditDetalle:messages" />
+					
+					<p:column>
+						<p:rowToggler />
+					</p:column>	
+					
+					<p:column headerText=" Cliente" >
+						<p:selectOneMenu sortBy="#{detalleEditPedido.id_cliente}" headerText="Cliente"  >
+						        <h:outputText value="#{detalleEditPedido.id_cliente}" />
+       					</p:selectOneMenu>	
+       				</p:column>	
+					
+					<p:column sortBy="#{detalleEditPedido.numPackete}" headerText="Num. Packete" >
+						<h:outputText value="#{detalleEditPedido.numPackete}" />
+					</p:column>
+					<p:column  headerText="Descripcion" >
+						<h:inputText value="#{detalleEditPedido.descripcion}" />
+					</p:column>
+					
+					<p:rowExpansion>
+						<h:panelGrid id="display" columns="2" cellpadding="4" style="width:300px;" styleClass="grid expandableGrid">
+							
+							<h:outputLabel value="Tipo" />
+									<p:selectOneMenu value="#{detalleEditPedido.tipo}" panelStyle="width:160px" 
+			                         effect="fade"  style="width:220px" >
+									              <f:selectItem  itemValue="Caja" itemLabel="Caja" />
+									              <f:selectItem  itemValue="Bulto" itemLabel="Bulto" />
+									              <f:selectItem  itemValue="Costal" itemLabel="Costal" />
+									              <f:selectItem  itemValue="Botella" itemLabel="Botella" />
+									              <f:selectItem  itemValue="Tonel" itemLabel="Tonel" />
+									              <f:selectItem  itemValue="Caneca" itemLabel="Caneca" />
+			       					</p:selectOneMenu>
+							<h:outputLabel value="Unidad de Medida" />
+									<p:selectOneMenu value="#{detalleEditPedido.uniMedia}" panelStyle="width:160px" 
+			                         effect="fade"  style="width:220px" >
+									              <f:selectItem  itemValue="Unidad" itemLabel="Unidad" />
+									              <f:selectItem  itemValue="cm3" itemLabel="Centímetros Cúbicos" />
+									              <f:selectItem  itemValue="m3" itemLabel="Metros Cúbicos" />
+									              <f:selectItem  itemValue="Kilogramo" itemLabel="Kilogramo" />
+									              <f:selectItem  itemValue="Gramo" itemLabel="Gramo" />
+									              <f:selectItem  itemValue="Libras" itemLabel="Libra" />
+									              <f:selectItem  itemValue="Litros" itemLabel="Litro" />
+									              <f:selectItem  itemValue="Galón" itemLabel="Galón" />
+			       					</p:selectOneMenu>
+							<h:outputLabel value="Cantidad" />	
+									<p:spinner value="#{detalleEditPedido.medida}"  min="1" />
+						</h:panelGrid>
+					</p:rowExpansion>
+				</p:dataTable>
+						<f:facet name="footer">
+							<p:commandButton id="btnGuardarEdit" value="Guardar" actionListener="#{pedidoRetiroBacking.actualizarDetallePedido()}"
+								update=":frmEditPedido :formEdit" />
+								
+							<p:commandButton id="btnCancelarEdit" value="Cancelar" onclick="dlgEditDetalle.hide()" />
+						</f:facet>
+				</p:dialog>
+			</h:form>
+		
+	
+			<h:form id="frmNuevoPedido">
+				<p:dialog id="dialogoNuevoChofer" widgetVar="dlgNuevoPedido" modal="true" resizable="false"
+					header="Creación Nuevo Pedido">
+					<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel for="bodegaO" value=" Cliente" />
+						<p:selectOneMenu id="cliente" value="#{pedidoRetiroBacking.pedidoRetiro.idCliente}" panelStyle="width:160px" 
+                         effect="fade" var="t" style="width:220px" >
+						              <f:selectItem  itemValue="#{authenticationBacking.rolPorUsuarioActual.usuario.nombre}"
+						              itemLabel="#{authenticationBacking.rolPorUsuarioActual.usuario.nombre}" />
+       					</p:selectOneMenu>
+						
+					
+						<h:outputLabel for="direccionN" value="Peso aprox Kg: *" style="width:220px" />
+						<p:inputText id="direccionN" label="Peso" value="#{pedidoRetiroBacking.pedidoRetiro.peso}" style="width:220px"/>
+
+						<h:outputLabel for="telefonoN" value="Volumen aprox m3: *" />
+						<p:inputText id="telefonoN" label="Volumen" value="#{pedidoRetiroBacking.pedidoRetiro.volumen}" style="width:220px"/>
+						
+						<h:outputLabel for="bodegaO" value="Bodega Retiro: *" />
+						<p:selectOneMenu id="bodegaO" value="#{pedidoRetiroBacking.pedidoRetiro.bodega}" panelStyle="width:160px" 
+                         effect="fade" var="t" style="width:220px" filter="true" filterMatchMode="startsWith">
+						              <f:selectItems  value="#{bodegaBacking.nombreBodegas}" />
+       					</p:selectOneMenu>
+						<h:outputLabel for="txtFechaAdNC" value="Fecha de Retiro : *" />
+						<p:calendar id="txtFechaAdNC" label="Fecha de Retiro " value="#{pedidoRetiroBacking.pedidoRetiro.fecha}" required="true" style="width:160px" pattern="MM/dd/yyyy HH:mm" mask="true" />
+ 					
+ 						<h:outputLabel for="descripcion" value="Descripcion: *" style="width:220px" />
+						<p:inputText id="descripcion" label="descripcion" value="#{pedidoRetiroBacking.pedidoRetiro.descripcion}" style="width:220px"/>
+						
+						<f:facet name="footer">
+							<p:commandButton id="btnGuardarNuevo" value="Guardar" actionListener="#{pedidoRetiroBacking.crearPedidoRetiro()}"
+								update=":frmNuevoPedido :formEdit " />
+							
+							<p:commandButton id="btnCancelarNuevo" value="Cancelar" onclick="dlgNuevoPedido.hide()" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="frmNuevaBodega">
+				<p:dialog id="dialogoNuevoChofer" widgetVar="dlgNuevaBodega" modal="true" resizable="false"
+					header="Creación Nueva Bodega">
+					<h:panelGrid columns="2" cellpadding="5">
+					
+						<h:outputLabel for="direccionN" value="Nombre: *" style="width:220px" />
+						<p:inputText id="direccionN" label="Peso" value="#{bodegaBacking.bodega.nombreBodega}" style="width:220px"/>
+
+						<h:outputLabel for="telefonoN" value="Dirección: *" />
+						<p:inputText id="telefonoN" label="Volumen" value="#{bodegaBacking.bodega.direccion}" style="width:220px"/>
+						
+						
+						
+						<f:facet name="footer">
+							<p:commandButton id="btnGuardarNuevo" value="Guardar" actionListener="#{bodegaBacking.crearBodega()}"
+								update="@all" />
+							<p:commandButton id="btnCancelarNuevo" value="Cancelar" onclick="dlgNuevaBodega.hide()" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="frmEditPedido">
+				<p:dialog id="dialogoEditPedido" widgetVar="dlgEditPedido" modal="true" resizable="false"
+					header="Edición de Pedido">
+					<h:panelGrid columns="2" cellpadding="5">
+					
+						<h:outputLabel for="direccionN" value="Peso aprox Kg: *" style="width:220px" />
+						<p:inputText id="direccionN" label="Peso" value="#{pedidoRetiroBacking.selectedPedidoRetiro.peso}" style="width:220px"/>
+
+						<h:outputLabel for="telefonoN" value="Volumen aprox m3: *" />
+						<p:inputText id="telefonoN" label="Volumen" value="#{pedidoRetiroBacking.selectedPedidoRetiro.volumen}" style="width:220px"/>
+						
+						<h:outputLabel for="bodegaO" value="Bodega Retiro: *" />
+						<p:selectOneMenu id="bodegaO" value="#{pedidoRetiroBacking.selectedPedidoRetiro.bodega}" panelStyle="width:160px"
+                         effect="fade" var="t" style="width:220px" filter="true" filterMatchMode="startsWith">
+			           
+						               <f:selectItems  value="#{bodegaBacking.nombreBodegas}" />
+									
+       					</p:selectOneMenu>
+						<h:outputLabel for="txtFechaAdNC" value="Fecha de Retiro: *" />
+						<p:calendar id="txtFechaAdNC" label="Fecha de Retiro " value="#{pedidoRetiroBacking.selectedPedidoRetiro.fecha}" required="true" style="width:160px" pattern="MM/dd/yyyy HH:mm" mask="true" />
+ 					
+ 						<h:outputLabel for="descripcion" value="Descripcion: *" style="width:220px" />
+						<p:inputText id="descripcion" label="descripcion" value="#{pedidoRetiroBacking.selectedPedidoRetiro.descripcion}" style="width:220px"/>
+						
+						<f:facet name="footer">
+							<p:commandButton id="btnGuardarEdicion" value="Guardar" actionListener="#{pedidoRetiroBacking.actualizarPedidoRetiro()}"
+								update=":frmEditPedido :formEdit" />
+								
+							<p:commandButton id="btnCancelarEdicion" value="Cancelar" onclick="dlgEditPedido.hide()" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

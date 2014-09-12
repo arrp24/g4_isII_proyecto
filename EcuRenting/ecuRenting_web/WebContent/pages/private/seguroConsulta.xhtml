@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="../../template/common/layout.xhtml">
+		<ui:define name="title">LOG :: Consulta Seguro</ui:define>
+		<ui:define name="content">
+			<h2 class="ui-state-default">Consulta de Seguros</h2>
+			<h:form id="formEdit">
+			
+			<p:confirmDialog id="confirmDialog" message="Estas seguro que deseas borrar el seguro actual?"
+					header="Confirma tu acción" severity="alert" widgetVar="confirmation">
+					<p:commandButton id="confirm" value="Si" update=":formEdit :frmEditSeguro" oncomplete="confirmation.hide()"
+						actionListener="#{seguroBacking.eliminarSeguro()}" />
+					<p:commandButton id="decline" value="No" onclick="confirmation.hide()" type="button" />
+			</p:confirmDialog>
+			
+			<p:growl id="growl" showDetail="true" escape="false" />
+				<p:dataTable id="dataTable" var="seguro" value="#{seguroBacking.seguros}" paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+					
+					<p:column>
+						<p:splitButton id="splitBtn" value="Editar" title="Haz clic para agendar un seguro"
+							update=":formEdit :frmEditSeguro" oncomplete="dlgEditSeguro.show()" icon="ui-icon-pencil">
+							<f:setPropertyActionListener value="#{seguro}" target="#{seguroBacking.selectedSeguro}" />
+							<p:menuitem value="Eliminar" onclick="confirmation.show()" icon="ui-icon-trash">
+								<f:setPropertyActionListener value="#{seguro}" target="#{seguroBacking.selectedSeguro}"  />
+							</p:menuitem>
+						</p:splitButton>
+					</p:column>
+
+					<p:column sortBy="#{seguro.placa}" headerText="Placa" filterBy="#{seguro.placa}" filterMatchMode="contains">
+						<h:outputText value="#{seguro.placa}" />
+					</p:column>
+					
+						
+					<p:column sortBy="#{seguro.compania}" headerText="Compania" >
+						<h:outputText value="#{seguro.compania}" />
+					</p:column>
+
+					<p:column sortBy="#{seguro.fechaCaducidad}" headerText="Fecha Caducidad" >
+						<h:outputText value="#{seguro.fechaCaducidad}" />
+					</p:column>
+					
+					<p:column sortBy="#{seguro.tipo}" headerText="Tipo" filterBy="#{seguro.tipo}"
+						filterMatchMode="contains">
+						<h:outputText value="#{seguro.tipo}" />
+					</p:column>
+					
+
+				</p:dataTable>
+				<p:commandButton id="btnNuevoSeguro" icon="ui-icon-plusthick" title="Haz clic para agregar un nuevo seguro"
+					onclick="dlgNuevoSeguro.show();" value="Nuevo" />
+			</h:form>
+			
+			<h:form id="frmEditSeguro">
+				<p:dialog id="dialogoEditChofer" widgetVar="dlgEditSeguro" modal="true" resizable="false"
+					header="Edición de Seguro">
+					<h:panelGrid columns="2" cellpadding="5">
+
+						<p:outputLabel for="placaE" value="Placa"  />
+						<p:outputLabel id="placaE" value="#{seguroBacking.selectedSeguro.placa}" />
+																	
+						<p:outputLabel for="tipoE" value="Tipo de seguro: *" />
+						<p:inputText id="tipoE" value="#{seguroBacking.selectedSeguro.tipo}" />
+					
+						<p:outputLabel for="companiaE" value="Compania aseguradora: *" />
+						<p:inputText id="companiaE" value="#{seguroBacking.selectedSeguro.compania}" />
+						
+						<p:outputLabel for="fechaInicioE" value="Fecha de inicio: *" />
+						<p:calendar id="fechaInicioE" value="#{seguroBacking.selectedSeguro.fechaInicio}" pattern="dd-MM-yyyy" />									
+				        
+				        <p:outputLabel for="fechaCaducidadE" value="Fecha de caducidad: *" />
+						<p:calendar id="fechaCaducidadE" value="#{seguroBacking.selectedSeguro.fechaCaducidad}" pattern="dd-MM-yyyy" />
+						
+						<p:outputLabel for="costoE" value="Costo: *" />
+						<p:inputText id="costoE" value="#{seguroBacking.selectedSeguro.costo}" />
+						
+						<p:outputLabel for="observacionE" value="Observacion: *" />
+						<p:inputText id="observacionE" value="#{seguroBacking.selectedSeguro.descripcion}" />						
+						
+							
+						<f:facet name="footer">
+							<p:commandButton id="btnGuardarEdicion" value="Guardar" actionListener="#{seguroBacking.actualizarSeguro()}"
+								update=":frmEditSeguro :formEdit" onclick="dlgEditSeguro.hide()" />
+								
+							<p:commandButton id="btnCancelarEdicion" value="Cancelar" onclick="dlgEditSeguro.hide()" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="frmNuevoSeguro">
+			<p:growl id="growl" showDetail="true" escape="false" />
+				<p:dialog id="dialogoNuevoSeguro" widgetVar="dlgNuevoSeguro" modal="true" resizable="false"
+					header="Nuevo de Seguro">
+					<h:panelGrid columns="2" cellpadding="5">
+
+						<p:outputLabel for="placaN" value="Placa: *"  />
+						<p:selectOneMenu id="placaN" value="#{seguroBacking.seguro.placa}" 
+                         		effect="fade" var="t"  filter="true" filterMatchMode="startsWith">
+				            
+				            <f:selectItems value="#{seguroBacking.flotas}" var="flota" itemLabel="#{flota.marca}- #{flota.modelo}: #{flota.placa}" itemValue="#{flota.placa}" />
+				 
+				        </p:selectOneMenu>
+
+						<p:outputLabel for="tipoN" value="Tipo de seguro: *" />
+						<p:inputText id="tipoN" value="#{seguroBacking.seguro.tipo}" />
+						
+						<p:outputLabel for="companiaN" value="Compania aseguradora: *" />
+						<p:inputText id="companiaN" value="#{seguroBacking.seguro.compania}" />
+						
+										
+				        <p:outputLabel for="fechaInicioN" value="Fecha de inicio: *" />
+						<p:calendar id="fechaInicioN" value="#{seguroBacking.seguro.fechaInicio}" pattern="dd-MM-yyyy" />									
+				        
+				        <p:outputLabel for="fechaCaducidadN" value="Fecha de caducidad: *" />
+						<p:calendar id="fechaCaducidadN" value="#{seguroBacking.seguro.fechaCaducidad}" pattern="dd-MM-yyyy" />
+						
+						<p:outputLabel for="costoN" value="Costo: *" />
+						<p:inputText id="costoN" value="#{seguroBacking.seguro.costo}" />	
+							
+						<p:outputLabel for="observacionN" value="Observacion: *" />
+						<p:inputText id="observacionN" value="#{seguroBacking.seguro.descripcion}" />
+								
+
+						<f:facet name="footer">
+							<p:commandButton id="btnGuardarNuevo" value="Guardar" actionListener="#{seguroBacking.crearSeguro()}"
+								update=":frmNuevoSeguro :formEdit" onclick="dlgNuevoSeguro.hide()"  />
+								
+							<p:commandButton id="btnCancelarEdicion" value="Cancelar" onclick="dlgNuevoSeguro.hide()" />
+						</f:facet>
+						
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+
+			
+					</ui:define>
+	</ui:composition>
+</h:body>
+</html>

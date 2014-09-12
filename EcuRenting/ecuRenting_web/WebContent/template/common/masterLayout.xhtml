@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html" locale="en">
+
+
+	<ui:insert name="metadata">
+		<f:metadata>
+			<f:event listener="#{authenticationBacking.isLoggedIn()}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:insert>
+	<h:head>
+		<h:outputStylesheet library="css" name="layout.css" />
+		<h:outputScript library="js" name="/js/openLayer/capas.js" />
+		
+		<link rel="shortcut icon" type="image/png"
+			href="#{request.contextPath}/resources/images/favicon.png" />
+
+		<ui:insert name="cargar"></ui:insert>
+		<title><ui:insert name="title">Geoportal CNE</ui:insert></title>
+	</h:head>
+	<h:body>
+		<h:form id="mainForm" prependId="false">
+			<h:panelGrid columns="2" styleClass="container"
+				columnClasses="chaptersMenuColumn,chaptersContentColumn">
+				<h:panelGroup layout="block">
+					<div id="menu" class="ui-widget-content">
+						<div id="logo">
+							<img src="../../resources/images/logo.png" alt="Dashboard" />
+						</div>
+						<div id="user">
+							<ui:insert name="session">
+								<ui:include src="/template/common/session.xhtml" />
+							</ui:insert>
+						</div>
+						<ui:insert name="menu">
+							<ui:include src="/template/common/menu.xhtml" />
+						</ui:insert>
+					</div>
+				</h:panelGroup>
+				<h:panelGroup layout="block">
+					<ui:insert name="chapterItem" />
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:form>
+
+		<h:panelGroup layout="block" styleClass="footer">
+			<ui:insert name="footer">
+				<ui:include src="/template/common/footer.xhtml" />
+			</ui:insert>
+		</h:panelGroup>
+
+		<p:idleMonitor timeout="600000" onidle="dialogoUsuarioIdo.show()" />
+
+		<p:dialog header="Atención!" resizable="false"
+			widgetVar="dialogoUsuarioIdo" modal="true" width="400"
+			style="text-align:center">
+			<h:outputText value="Parece que ya no estás usando el sistema!" />
+			<br />
+			<h:outputText value="Tu sesión va a caducar pronto." />
+			<br />
+			<p:commandButton value="Ya Volví!" onclick="dialogoUsuarioIdo.hide()"
+				style="margin-top:10px" />
+		</p:dialog>
+
+
+	</h:body>
+
+</f:view>
+</html>

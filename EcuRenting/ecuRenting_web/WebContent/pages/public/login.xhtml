@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+	<f:event listener="#{authenticationBacking.logout()}" type="preRenderView" />
+</f:metadata>
+
+<h:head>
+	<h:outputStylesheet library="css" name="login.css" />
+	
+	<title>PROTOTIPO DE PRUEBA</title>
+</h:head>
+<h:body>
+	<div id="divContenedor">
+		<div>
+			<h:graphicImage library="images" name="logoPrin.png" alt="Logo HN" style="padding-bottom: 50px; margin-left: 30px;" />
+		</div>
+
+		<h:form id="frmLogin">
+			<div id="barraHorizontal">
+
+				<h:panelGrid columns="4" style="float: left; margin-top:10px; margin-left:20px;">
+					<h:outputLabel for="usCedula" value="Cédula:" styleClass="masOscuro" />
+					<p:inputText id="usCedula" required="true" label="Cédula" value="#{authenticationBacking.cedula}"
+						styleClass="transparente" />
+					<h:outputLabel value="*" styleClass="masOscuro" />
+					<p:message for="usCedula" display="icon" />
+
+					<h:outputLabel for="usClave" value="Clave:" styleClass="masOscuro" />
+					<p:password id="usClave" required="true" label="Clave" value="#{authenticationBacking.clave}"
+						styleClass="transparente" />
+					<h:outputLabel value="*" styleClass="masOscuro" />
+					<p:message for="usClave" display="icon" />
+				</h:panelGrid>
+
+				<div style="float: left; margin-top: 10px;">
+					<p:messages escape="false" id="messages" autoUpdate="true" closable="true" />
+				</div>
+
+				<div style="float: none; margin-top: 100px; margin-left: 140px; text-align: left;">
+					<p:commandButton type="submit" value="INGRESAR" action="#{authenticationBacking.login()}" />
+				</div>
+			</div>
+		</h:form>
+
+	</div>
+
+
+</h:body>
+</html>
+

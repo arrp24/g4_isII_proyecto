@@ -1,0 +1,18 @@
+ul {
+	font-size: 0.5em;
+}
+
+.transparente {
+	background-color: rgba(255, 255, 255, 0.4);
+	!
+	important;
+}
+
+.masOscuro {
+	color: #222222;
+}
+
+#main{
+	float: none;
+	width: auto;
+}

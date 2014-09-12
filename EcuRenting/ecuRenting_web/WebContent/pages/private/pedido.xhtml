@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="../../template/common/layout.xhtml">
+		<ui:define name="title">LOG :: Edición Rutas</ui:define>
+		<ui:define name="content">
+			<h2 class="ui-state-default">Edición de Rutas</h2>
+			<h:form id="formEdit">
+				<p:growl id="growl" showDetail="true" escape="false" />
+				<p:tooltip />
+				
+				<br />
+				<p:commandButton id="btnNuevoPedido" icon="ui-icon-plusthick" title="Haz clic para agregar un nuevo Pedido"
+					onclick="dlgNuevoPedido.show();" value="Nuevo Pedido" />
+
+
+			</h:form>
+
+			<h:form id="frmNuevoPedido">
+				<p:dialog id="dialogoNuevoPedido" widgetVar="dlgNuevoPedido" modal="true" resizable="false"
+					header="Creación Nuevo Pedido">
+					<p:growl id="msg" showDetail="true" escape="false" />
+ 
+    <h3 style="margin-top: 0">Basic PickList</h3>
+    <p:pickList id="pickList" value="#{pickListView.cities}" var="cities" itemLabel="#{cities}" itemValue="#{cities}" />
+ 
+    <!-- <p:commandButton id="citySubmit" value="Submit" update="displayCities" oncomplete="PF('cityDialog').show()" style="margin-top:5px" />
+  -->
+  
+  <p:commandButton id="btnNuevoChofer" icon="ui-icon-plusthick" title="Haz clic para agregar una asignacion de Chofer y Flota"
+					onclick="dlgNuevoChofer.show();" value="Flota y Chofer" />
+
+				<p:confirmDialog id="confirmDialog" message="Estas seguro que deseas borrar la ruta actual?"
+					header="Confirma tu acción" severity="alert" widgetVar="confirmation">
+					<p:commandButton id="confirm" value="Si" update=":formEdit :frmNuevoChofer" oncomplete="confirmation.hide()"
+						actionListener="#{rutaBacking.eliminarRuta()}" />
+					<p:commandButton id="decline" value="No" onclick="confirmation.hide()" type="button" />
+				</p:confirmDialog>
+     
+				</p:dialog>
+			</h:form>
+			
+			
+			
+			<h:form id="frmNuevoChofer">
+				<p:dialog id="dialogoNuevoChofer" widgetVar="dlgNuevoChofer" modal="true" resizable="false"
+					header="Creación Nuevo Chofer">
+					<p:growl id="msg" showDetail="true" escape="false" />
+ 
+     
+        <p:outputLabel for="console" value="Flotas:" />
+        <p:selectOneMenu id="console" value="#{selectOneMenuView.console}">
+            <f:selectItem itemLabel="Seleccione una Flota" itemValue="" />
+            <f:selectItem itemLabel="Camión HINO - 200Kg" itemValue="Camión HINO - 200Kg" />
+            <f:selectItem itemLabel="Camión HINO 500Kg" itemValue="Camión HINO 500Kg" />
+            <f:selectItem itemLabel="Camión MB 460Kg" itemValue="Camión MB 460Kg" />
+        </p:selectOneMenu>
+        
+         <p:outputLabel for="choferes" value="Choferes:" />
+        <p:selectOneMenu id="choferes" value="#{selectOneMenuView.console}">
+            <f:selectItem itemLabel="Seleccione un clofer" itemValue="" />
+            <f:selectItem itemLabel="Luis Vega" itemValue="Luis Vega" />
+            <f:selectItem itemLabel="Calos Morales" itemValue="Carlos Morales" />
+            <f:selectItem itemLabel="Jaime Rendón" itemValue="Jaime Rendón" />
+        </p:selectOneMenu>
+     
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="frmEditRuta">
+				<p:dialog id="dialogoEditRuta" widgetVar="dlgEditRuta" modal="true" resizable="false"
+					header="Edición de Ruta">
+					<h:panelGrid columns="2" cellpadding="5">
+
+				
+						<h:outputLabel for="puntoIniE" value="Punto Inicial: *" />
+						<p:inputText id="puntoIniE" label="Punto Inicial" value="#{rutaBacking.selectedRuta.puntoInicio}" required="true" />
+
+						<h:outputLabel for="puntoFinE" value="Punto Final: *" />
+						<p:inputText id="puntoFinE" label="Punto Final" value="#{rutaBacking.selectedRuta.puntoFin}" required="true" />
+
+						<h:outputLabel for="descripcionE" value="Descripción: *" />
+						<p:inputText id="descripcionE" label="Descripción" value="#{rutaBacking.selectedRuta.descripcion}"
+							required="true" />
+
+						<h:outputLabel for="urlE" value="URL Imagen: *" />
+						<p:inputText id="urlE" label="URL Imagen" value="#{rutaBacking.selectedRuta.urlImg}" required="true" />
+
+							
+						<f:facet name="footer">
+							<p:commandButton id="btnGuardarEdicion" value="Guardar" actionListener="#{rutaBacking.actualizarRuta()}"
+								update=":frmEditRuta :formEdit" />
+							<p:commandButton id="btnCancelarEdicion" value="Cancelar" onclick="dlgEditRuta.hide()" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

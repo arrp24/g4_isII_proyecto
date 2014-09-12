@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="../../template/common/layout.xhtml">
+		<ui:define name="title">LOG :: Consulta Inventario</ui:define>
+		<ui:define name="content">
+			<h2 class="ui-state-default"> Inventario General</h2>
+			<h:form id="formEdit">				
+				
+			<p:growl id="messages" showDetail="true" />
+				<p:tooltip />
+				
+				<p:dataTable id="dataTable" var="inventario" value="#{inventarioBacking.inventarios}" paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+					
+					<p:ajax event="rowToggle" listener="#{inventarioBacking.onRowToggle}" update=":formEdit:messages" />
+					
+					<p:column>
+						<p:rowToggler />
+					</p:column>
+					
+					
+					<p:column sortBy="#{inventario.cliente}" headerText="Cliente" filterBy="#{inventario.cliente}"
+						filterMatchMode="contains">
+						<h:outputText value="#{inventario.cliente}" />
+					</p:column>
+					<p:column sortBy="#{inventario.descripcion}" headerText="Nombre Mercaderia" filterBy="#{inventario.descripcion}"
+						filterMatchMode="contains">
+						<h:outputText value="#{inventario.descripcion}" />
+					</p:column>
+					<p:column sortBy="#{inventario.existencia}" headerText="Existencia" filterBy="#{inventario.existencia}"
+						filterMatchMode="contains">
+						<h:outputText value="#{inventario.existencia}" />
+					</p:column>
+					<p:column sortBy="#{inventario.tipo}" headerText="Tipo" filterBy="#{inventario.tipo}"
+						filterMatchMode="contains">
+						<h:outputText value="#{inventario.tipo}" />
+					</p:column>
+					
+					<p:rowExpansion>
+						<h:panelGrid id="display" columns="2" cellpadding="4" style="width:300px;" styleClass="grid expandableGrid">
+							
+							<h:outputLabel value="U. Medida" />
+							<h:outputText value="#{inventario.uni_media}" />
+							
+							<h:outputLabel value="Fecha de Caducidad" />
+							<h:outputText value="#{inventario.fecha_caducidad}" />
+							
+							<h:outputLabel value="Fecha de Registro" />
+							<h:outputText value="#{inventario.fecha_ingreso}" />
+							
+							<h:outputLabel value="Peso del Producto" />
+							<h:outputText value="#{inventario.peso}" />
+							
+							<h:outputLabel value="Volumen del Producto" />
+							<h:outputText value="#{inventario.volumen}" />
+							
+							<h:outputLabel value="Ubicacion del Producto" />
+							<h:outputText value="#{inventario.ubicacion}" />
+							
+						</h:panelGrid>
+					</p:rowExpansion>
+					
+				</p:dataTable>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

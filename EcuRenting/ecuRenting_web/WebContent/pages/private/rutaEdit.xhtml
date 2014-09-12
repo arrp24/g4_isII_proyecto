@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="../../template/common/layout.xhtml">
+		<ui:define name="title">LOG :: Edición Rutas</ui:define>
+		<ui:define name="content">
+			<h2 class="ui-state-default">Edición de Rutas</h2>
+			
+			<h:form id="formEdit">
+
+				<p:growl id="growl" showDetail="true" escape="false" />
+				<p:tooltip />
+
+				<br />
+				<p:commandButton id="btnNuevoRuta" icon="ui-icon-plusthick"	title="Haz clic para agregar una nueva Ruta"
+					onclick="dlgNuevoRuta.show();" value="Nueva Asignación de Ruta" />
+
+				<p:confirmDialog id="confirmDialog" message="Estas seguro que deseas borrar la ruta actual?"
+					header="Confirma tu acción" severity="alert" widgetVar="confirmation">
+					
+					<p:commandButton id="confirm" value="Si" update=":formEdit :frmNuevoRuta" oncomplete="confirmation.hide()"
+						actionListener="#{rutaBacking.eliminarRuta()}" />
+					<p:commandButton id="decline" value="No" onclick="confirmation.hide()" type="button" />
+				</p:confirmDialog>
+
+			</h:form>
+
+			<h:form id="frmNuevoRuta">
+
+				<p:growl id="msg" showDetail="true" />
+
+				<p:dialog id="dialogoNuevoRuta" widgetVar="dlgNuevoRuta"
+					modal="true" resizable="false" header="Creación Nueva Ruta">
+
+					<h:outputLabel for="menuFlota" value="Flota: *" />						
+				        <p:selectOneMenu id="menuFlota" value="#{rutaBacking.dato}" converter="#{flotaConvertor}">
+							<p:ajax event="change" 	listener="#{rutaBacking.verificaPicoPlaca()}" update="msg,:frmNuevoChofer,espacioDisp" />
+							<f:selectItems value="#{flotaBacking.flotas}" var="flotas" itemValue="{flota}" itemLabel="#{flotas.marca} #{flotas.modelo} #{flotas.capacidad}" />
+						
+					</p:selectOneMenu>
+					<br />
+					<br />
+					<p:outputLabel for="fechaE" value="Fecha de ruta:" />
+					<p:calendar id="fechaE" value="#{rutaBacking.fechaEntrega}"
+						pattern="dd/MM/yyyy HH:mm">
+						<p:ajax event="dateSelect" update="fechaE,menuFlota" />
+					</p:calendar>
+					<br />
+
+					<br />
+					
+					<p:tabView dynamic="true" cache="true">
+        				<p:tab title="Pedidos de Retiro">
+        					<p:scrollPanel style="width:900px;">
+			            		<p:dataTable id="dataTable" var="pedidoRetiro" value="#{pedidoRetiroBacking.pedidoRetiros}" paginator="true" rows="5"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+			
+									<p:column sortBy="#{pedidoRetiro.idCliente}" headerText="Cliente"
+										filterBy="#{pedidoRetiro.idCliente}" filterMatchMode="contains">
+										<h:outputText value="#{pedidoRetiro.idCliente}" />
+									</p:column>
+			
+									<p:column sortBy="#{pedidoRetiro.descripcion}" headerText="Descripción"
+										filterBy="#{pedidoRetiro.descripcion}" filterMatchMode="contains">
+										<h:outputText value="#{pedidoRetiro.descripcion}" />
+									</p:column>
+									
+									<p:column sortBy="#{pedidoRetiro.volumen}" headerText="Volumen" 
+										filterBy="#{pedidoRetiro.volumen}" filterMatchMode="contains">
+											<h:outputText value="#{pedidoRetiro.volumen}" />
+									</p:column>
+									
+									<p:column sortBy="#{pedidoRetiro.bodega}" headerText="Bodega"  
+										filterBy="#{pedidoRetiro.bodega}" filterMatchMode="contains">
+											<h:outputText value="#{pedidoRetiro.bodega}" />
+									</p:column>
+			
+									<p:column sortBy="#{pedidoRetiro.peso}" headerText="Peso Kg."
+										filterBy="#{pedidoRetiro.peso}" filterMatchMode="contains">
+										<h:outputText value="#{pedidoRetiro.peso}......" />
+										<p:selectBooleanCheckbox value="#{rutaBacking.value2}">
+											<p:ajax update=":frmNuevoRuta:msg" listener="#{rutaBacking.cambiarPeso(pedidoRetiro.peso)}" />
+											
+										</p:selectBooleanCheckbox>
+									</p:column>
+								</p:dataTable>
+							</p:scrollPanel>				
+        				</p:tab>
+        					<p:tab title="Pedidos de Entrega">
+        					
+        						<h:outputText value="Pedidos de Entrega" />
+        					
+        					</p:tab>
+    					</p:tabView>
+					
+					
+					
+					
+
+					<h:outputText value="Espacio Disponible:" />
+					<h:inputText id="espacioDisp" value="#{rutaBacking.peso}"
+						disabled="true" />
+
+
+
+					<br />
+					<br />
+					<p:commandButton id="btnNuevoChofer" icon="ui-icon-plusthick"
+						title="Haz clic para agregar una asignacion de Chofer"
+						onclick="dlgNuevoChofer.show();" value="Chofer" />
+
+					<p:confirmDialog id="confirmDialog"
+						message="Estas seguro que deseas borrar la ruta actual?"
+						header="Confirma tu acción" severity="alert"
+						widgetVar="confirmation">
+						<p:commandButton id="confirm" value="Si"
+							update=":formEdit :frmNuevoChofer"
+							oncomplete="confirmation.hide()"
+							actionListener="#{rutaBacking.eliminarRuta()}" />
+						<p:commandButton id="decline" value="No"
+							onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+
+					<p:commandButton id="btnCancelarEdicion" value="Guardar"
+						onclick="dlgNuevoRuta.hide()" />
+
+				</p:dialog>
+			</h:form>
+			<p:dialog header="Values" modal="true" resizable="false"
+				showEffect="fade" widgetVar="dlg">
+				<h:panelGrid columns="1" id="display">
+					<h:outputText value="Value 1: #{selectBooleanView.value1}" />
+					<h:outputText value="Value 2: #{selectBooleanView.value2}" />
+				</h:panelGrid>
+			</p:dialog>
+
+
+			<h:form id="frmNuevoChofer">
+				<p:dialog id="dialogoNuevoChofer" widgetVar="dlgNuevoChofer"
+					modal="true" resizable="false" header="Creación Nuevo Chofer">
+					<p:growl id="msg" showDetail="true" escape="false" />
+
+					<p:outputLabel for="choferes" value="Choferes:" />
+					<p:selectOneMenu id="choferes" value="">
+
+						<f:selectItems value="#{rutaBacking.choferesHabiles}" />
+
+					</p:selectOneMenu>
+
+
+					<p:commandButton id="btnCancelarEdicion" value="Guardar"
+						onclick="dlgNuevoChofer.hide()" />
+				</p:dialog>
+			</h:form>
+
+			<h:form id="frmEditRuta">
+				<p:dialog id="dialogoEditRuta" widgetVar="dlgEditRuta" modal="true"
+					resizable="false" header="Edición de Ruta">
+					<h:panelGrid columns="2" cellpadding="5">
+
+
+						<h:outputLabel for="puntoIniE" value="Punto Inicial: *" />
+						<p:inputText id="puntoIniE" label="Punto Inicial"
+							value="#{rutaBacking.selectedRuta.puntoInicio}" required="true" />
+
+						<h:outputLabel for="puntoFinE" value="Punto Final: *" />
+						<p:inputText id="puntoFinE" label="Punto Final"
+							value="#{rutaBacking.selectedRuta.puntoFin}" required="true" />
+
+						<h:outputLabel for="descripcionE" value="Descripción: *" />
+						<p:inputText id="descripcionE" label="Descripción"
+							value="#{rutaBacking.selectedRuta.descripcion}" required="true" />
+
+						<h:outputLabel for="urlE" value="URL Imagen: *" />
+						<p:inputText id="urlE" label="URL Imagen"
+							value="#{rutaBacking.selectedRuta.urlImg}" required="true" />
+
+
+						<f:facet name="footer">
+							<p:commandButton id="btnGuardarEdicion" value="Guardar"
+								actionListener="#{rutaBacking.actualizarRuta()}"
+								update=":frmEditRuta :formEdit" />
+							<p:commandButton id="btnCancelarEdicion" value="Cancelar"
+								onclick="dlgEditRuta.hide()" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

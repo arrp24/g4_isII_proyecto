@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="../../template/common/layout.xhtml">
+		<ui:define name="title">SGE :: Edición Roles</ui:define>
+		<ui:define name="content">
+			<h2 class="ui-state-default">Edición de Rol</h2>
+			<h:form id="formEdit">
+				<p:growl id="growl" showDetail="true" life="5000" />
+				<p:tooltip />
+				<p:dataTable id="dataTable" var="rol" value="#{rolBacking.roles}" paginator="true" rows="5"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+
+					<p:column>
+						<p:commandButton id="splitBtn" value="Editar" title="Haz clic para editar el perfil actual" update=":formEditEdit"
+							oncomplete="dlgEditRol.show()" icon="ui-icon-pencil">
+							<f:setPropertyActionListener value="#{rol}" target="#{rolBacking.rolEdit}" />
+							
+						</p:commandButton>
+					</p:column>
+
+					<p:column sortBy="#{rol.id}" headerText="Código" filterBy="#{rol.id}" filterMatchMode="contains">
+						<h:outputText value="#{rol.id}" />
+					</p:column>
+
+					<p:column sortBy="#{rol.descripcion}" headerText="Descricpción" filterBy="#{rol.descripcion}"
+						filterMatchMode="contains">
+						<h:outputText value="#{rol.descripcion}" />
+					</p:column>
+
+					<p:column sortBy="#{rol.fechaCreacion}" headerText="Fecha Creación" filterBy="#{rol.fechaCreacion}"
+						filterMatchMode="contains">
+						<h:outputText value="#{rol.fechaCreacion}" />
+					</p:column>
+
+					
+				</p:dataTable>
+				
+				<br />
+				
+				<p:column headerText="Permisos">
+						<p:commandButton id="btnVerPermisos" update=":formEdit :formEditPermisos"
+							onclick="#{rolBacking.obtenerDualListModel()}" oncomplete="dlgPermisos.show()" icon="ui-icon-search">
+							<f:setPropertyActionListener value="#{rol}" target="#{rolBacking.selectedRolPermisos}" />
+						</p:commandButton>
+					</p:column>
+					
+				
+				
+
+				
+			</h:form>
+
+			
+			<h:form id="formEditPermisos">
+				<p:growl id="growl2" showDetail="true" life="5000" />
+				<p:dialog id="dialogoPermisos" widgetVar="dlgPermisos" modal="true" resizable="false"
+					header="Items de menú para el rol #{rolBacking.selectedRolPermisos.id}">
+					<p:pickList value="#{rolBacking.opcionMenuPorRol}" var="opcionMenu" itemValue="#{opcionMenu}"
+						itemLabel="#{opcionMenu.padre.etiqueta}:#{opcionMenu.etiqueta}" converter="#{opcionMenuConvertor}">
+						<f:facet name="sourceCaption">Disponibles</f:facet>
+						<f:facet name="targetCaption">Asignados</f:facet>
+					</p:pickList>
+					<f:facet name="footer">
+						<p:commandButton id="btnGuardarOMPR" value="Guardar" actionListener="#{rolBacking.guardarOpcionesMenuPorRol()}"
+							update=":formEdit formEditPermisos" />
+						<p:commandButton id="btnCancelarOMPR" value="Cancelar" onclick="dlgPermisos.hide()" />
+					</f:facet>
+				</p:dialog>
+			</h:form>
+
+			<h:form id="formEditEdit">
+				<p:growl id="growl3" showDetail="true" life="5000" />
+				<p:dialog id="dialogoEditRol" header="Edición de Perfil" widgetVar="dlgEditRol" modal="true" resizable="false">
+					<h:panelGrid columns="2" cellpadding="5">
+
+						<h:outputLabel for="codigoEdit" value="Código:" />
+						<p:inputText id="codigoEdit" label="codigoEdit" value="#{rolBacking.rolEdit.id}" disabled="true" />
+
+						<h:outputLabel for="descripcionEdit" value="Descripción:" />
+						<p:inputText id="descripcionEdit" label="codigoEdit" value="#{rolBacking.rolEdit.descripcion}" />
+
+						<h:outputLabel for="fechaCreacionEdit" value="Fecha Creación:" />
+						<p:inputText id="fechaCreacionEdit" label="fechaCreacionEdit" disabled="true"
+							value="#{rolBacking.rolEdit.fechaCreacion}" />
+
+						<f:facet name="footer">
+							<p:commandButton id="btnGuardarEdit" value="Guardar" actionListener="#{rolBacking.actualizarRol()}"
+								update=":formEdit formEditEdit" />
+							<p:commandButton id="btnCancelarEdit" value="Cancelar" onclick="dlgEditRol.hide()" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

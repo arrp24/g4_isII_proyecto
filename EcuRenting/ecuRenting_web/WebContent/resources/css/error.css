@@ -1,0 +1,11 @@
+body {
+	background-image: url("../resources/images/errorBg.png");
+	background-repeat: no-repeat;
+	background-position: -100px 100px;
+}
+
+#frmError{
+	width: 550px;
+	text-align: center;
+	margin: auto;
+}
