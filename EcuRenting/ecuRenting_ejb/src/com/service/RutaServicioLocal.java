@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import com.ls.gestion.entity.Ruta;
+import com.gestion.entity.Ruta;
 
 @Local
 public interface RutaServicioLocal {
@@ -14,7 +14,7 @@ public interface RutaServicioLocal {
 	    * Se recupera el listado total de Rutas
 	    * </b>
 	    * <p>
-	    * [Author: katy, Date: Jun 18, 2014]
+	    * [Author: Desarrollo, Date: Oct 03, 2014]
 	    * </p>
 	    * 
 	    * @return List<Ruta>
@@ -27,7 +27,7 @@ public interface RutaServicioLocal {
 	    * Se crea una nueva Ruta
 	    * </b>
 	    * <p>
-	    * [Author: katy, Date: Jun 18, 2014]
+	    * [Author: Desarrollo, Date: Oct 03, 2014]
 	    * </p>
 	    * 
 	    * @param ruta
@@ -41,7 +41,7 @@ public interface RutaServicioLocal {
 	    * Se actualiza una ruta
 	    * </b>
 	    * <p>
-	    * [Author: katy, Date: Jun 18, 2014]
+	    * [Author: Desarrollo, Date: Oct 03, 2014]
 	    * </p>
 	    * 
 	    * @param ruta
@@ -54,7 +54,7 @@ public interface RutaServicioLocal {
 	    * Elimina la ruta pasado por parámetro.
 	    * </b>
 	    * <p>
-	    * [Author: katy, Date: Jun 18, 2014]
+	    * [Author: Desarrollo, Date: Oct 03, 2014]
 	    * </p>
 	    * 
 	    * @param codigoRuta codigo que pertenece a la Ruta a borrarse
@@ -67,7 +67,7 @@ public interface RutaServicioLocal {
 	    * Devuelve la Ruta buscada por código.
 	    * </b>
 	    * <p>
-	    * [Author: katy, Date: Jun 18, 2014]
+	    * [Author: Desarrollo, Date: Oct 03, 2014]
 	    * </p>
 	    * 
 	    * @param codigo Código de la Ruta a buscar.

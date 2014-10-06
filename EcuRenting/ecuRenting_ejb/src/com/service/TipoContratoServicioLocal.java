@@ -1,79 +1,77 @@
-package com.ls.gestion.service;
+package com.service;
 
 import java.util.List;
 
 import javax.ejb.Local;
 
-import com.ls.gestion.entity.PedidoEntrega;
+import com.gestion.entity.TipoContrato;;
 
 @Local
-public interface PedidoEntregaServicioLocal {
-
+public interface TipoContratoServicioRemoto {
 
 	 /**
-    * <b>
-    * Se recupera el listado total de las PedidoEntregas
-    * </b>
-    * <p>
-    * [Author: katy, Date: Jun 18, 2014]
-    * </p>
-    * 
-    * @return List<PedidoEntrega>
-    */
-   
-	List<PedidoEntrega> getAll();
+     * <b>
+     * Se recupera el listado total de las TipoContratos
+     * </b>
+     * <p>
+     * [Author: Líder, Date: Oct 04, 2014]
+     * </p>
+     * 
+     * @return List<TipoContrato>
+     */
+    
+	List<TipoContrato> getAll();
 
-   /**
-    * <b>
-    * Se crea una nueva PedidoEntrega
-    * </b>
-    * <p>
-    * [Author: katy, Date: Jun 18, 2014]
-    * </p>
-    * 
-    * @param flota
-    * @return
-    */
-   void crearPedidoEntrega(PedidoEntrega flota);
+    /**
+     * <b>
+     * Se crea una nueva TipoContrato
+     * </b>
+     * <p>
+     * [Author: Líder, Date: Oct 04, 2014]
+     * </p>
+     * 
+     * @param tipoContrato
+     * @return
+     */
+    void crearTipoContrato(TipoContrato tipoContrato);
 
-   /**
-    * 
-    * <b>
-    * Se actualiza una flota
-    * </b>
-    * <p>
-    * [Author: katy, Date: Jun 18, 2014]
-    * </p>
-    * 
-    * @param flota
-    * @return
-    */
-   void actualizarPedidoEntrega(PedidoEntrega flota);
+    /**
+     * 
+     * <b>
+     * Se actualiza una tipoContrato
+     * </b>
+     * <p>
+     * [Author: Líder, Date: Oct 04, 2014]
+     * </p>
+     * 
+     * @param tipoContrato
+     * @return
+     */
+    void actualizarTipoContrato(TipoContrato tipoContrato);
 
-   /**
-    * <b>
-    * Elimina la flota pasada por parámetro.
-    * </b>
-    * <p>
-    * [Author: katy, Date: Jun 18, 2014]
-    * </p>
-    * 
-    * @param codigoPedidoEntrega codigo que pertenece a la PedidoEntrega a borrarse
-    *           
-    */
-   void eliminarPedidoEntrega(Integer codigoPedidoEntrega);
+    /**
+     * <b>
+     * Elimina la tipoContrato pasada por parámetro.
+     * </b>
+     * <p>
+     * [Author: Líder, Date: Oct 04, 2014]
+     * </p>
+     * 
+     * @param codigoTipoContrato codigo a borrarse
+     *           
+     */
+    void eliminarTipoContrato(Integer codigoTipoContrato);
 
-   /**
-    * <b>
-    * Devuelve la PedidoEntrega buscada por código.
-    * </b>
-    * <p>
-    * [Author: katy, Date: Jun 18, 2014]
-    * </p>
-    * 
-    * @param codigo Código de la PedidoEntrega a buscar.
-    * @return PedidoEntrega
-    */
-   PedidoEntrega buscarPedidoEntregaPorCodigo(Integer codigo);
-   
+    /**
+     * <b>
+     * Devuelve la tipoContrato buscada por código.
+     * </b>
+     * <p>
+     * [Author: Líder, Date: Oct 04, 2014]
+     * </p>
+     * 
+     * @param codigo Código de la TipoContrato a buscar.
+     * @return TipoContrato
+     */
+     TipoContrato buscarTipoContratoPorCodigo(Integer codigo);
 }

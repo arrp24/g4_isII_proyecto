@@ -1,4 +1,4 @@
-package com.ls.gestion.web.backing;
+package com.web.backing;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,175 +12,89 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.ToggleEvent;
 
-import com.ls.gestion.entity.Chofer;
+import com.gestion.entity.Cliente;
 
-import com.ls.gestion.service.ChoferServicioLocal;
+import com.gestion.service.ClienteServicioLocal;
 
 
-@ManagedBean(name = "choferBacking")
+@ManagedBean(name = "clienteBacking")
 @ViewScoped
-public class ChoferBacking implements Serializable {
+public class ClienteBacking implements Serializable {
 
 	private static final long serialVersionUID = 5297201599173897134L;
 
 	@EJB
-	private ChoferServicioLocal choferServicio;
+	private ClienteServicioLocal clienteServicio;
 	
-	private List<Chofer> choferes;
-	private Chofer chofer;
-	private Chofer selectedChofer;
+	private List<Cliente> clientes;
+	private Cliente cliente;
+	private Cliente selectedCliente;
 	
 	
-	 public ChoferBacking() {
-		 System.out.print("constructor..........");
-	        this.chofer = new Chofer();
-	    }
+	 public ClienteBacking() {
+	        this.cliente = new Cliente();
+	 }
 
 	    
 	@PostConstruct
 	public void init() {
-		System.out.print("constructor..........");
-		this.choferes = choferServicio.getAll();
+		this.clientees = clienteServicio.getAll();
 		
 	}
 	
-    public ChoferServicioLocal getChoferServicio() {
-		return choferServicio;
+    public ClienteServicioLocal getClienteServicio() {
+		return clienteServicio;
 	}
 
-	public void setChoferServicio(ChoferServicioLocal choferServicio) {
-		this.choferServicio = choferServicio;
+	public void setClienteServicio(ClienteServicioLocal clienteServicio) {
+		this.clienteServicio = clienteServicio;
 	}
 
-	public List<Chofer> getChoferes() {
-		return choferes;
+	public List<Cliente> getClientees() {
+		return clientees;
 	}
 
-	public void setChoferes(List<Chofer> choferes) {
-		this.choferes = choferes;
+	public void setClientees(List<Cliente> clientees) {
+		this.clientees = clientees;
 	}
 
-	public Chofer getChofer() {
-		return chofer;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setChofer(Chofer chofer) {
-		this.chofer = chofer;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
-	public Chofer getSelectedChofer() {
-		return selectedChofer;
+	public Cliente getSelectedCliente() {
+		return selectedCliente;
 	}
 
-	public void setSelectedChofer(Chofer selectedChofer) {
-		this.selectedChofer = selectedChofer;
+	public void setSelectedCliente(Cliente selectedCliente) {
+		this.selectedCliente = selectedCliente;
 	}
-
-    public void onRowToggle(ToggleEvent event) {
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Chofer " + event.getVisibility(), "Nombre: "
-                + ((Chofer) event.getData()).getNombre());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
     
-	public void crearChofer() {
-		choferServicio.crearChofer(chofer);
-		chofer = new Chofer();
-		choferes = choferServicio.getAll();
+	public void crearCliente() {
+		clienteServicio.crearCliente(cliente);
+		cliente = new Cliente();
+		clientees = clienteServicio.getAll();
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"Creación Exitosa",
-				"Se ha creado un nuevo Chofer exitosamente!");
+				"Se ha creado un nuevo Cliente exitosamente!");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public void actualizarChofer() {
-		choferServicio.actualizarChofer(this.selectedChofer);
+	public void actualizarCliente() {
+		clienteServicio.actualizarCliente(this.selectedCliente);
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"Actualización Exitosa",
-				"Se ha actualizado exitosamente el chofer \""
-						+ this.selectedChofer.getNombre() + "\"");
+				"Se ha actualizado exitosamente el cliente \""
+						+ this.selectedCliente.getNombre() + "\"");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-		this.selectedChofer = null;
+		this.selectedCliente = null;
 	}
 	
-	public void eliminarChofer() {
-		if (this.selectedChofer != null) {
-			choferServicio.eliminarChofer(selectedChofer.getId());
-
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Eliminación Exitosa",
-					"Se ha borrado exitosamente el chofer \""
-							+ this.selectedChofer.getNombre() + "\"");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-			this.selectedChofer = null;
-			this.choferes = choferServicio.getAll();
-		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Error de Selección",
-					"Ha ocurrido un error al seleccionar el chofer");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
-	}
-
-	public void habilitadoFlota(double capacidad, String tipoLicencia){
-		if (tipoLicencia.equals("A1") && (capacidad == 0)){
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Habilitado",
-					"El tipo de licencia:" + this.selectedChofer.getTipoLicencia()+" es correcta. ");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-			
-			
-		}
-		if (tipoLicencia.equals("C") && (capacidad <= 3500)){
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Habilitado",
-					"El tipo de licencia:" + this.selectedChofer.getTipoLicencia()+" es correcta. ");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-						
-		}
-		if (tipoLicencia.equals("C1") && (capacidad <= 3500)){
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Habilitado",
-					"El tipo de licencia:" + this.selectedChofer.getTipoLicencia()+" es correcta. ");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-			
-			
-		}
-		if (tipoLicencia.equals("D") && (capacidad <= 3500)){
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Habilitado",
-					"El tipo de licencia:" + this.selectedChofer.getTipoLicencia()+" es correcta. ");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-			
-			
-		}
-		if (tipoLicencia.equals("D1") && (capacidad <= 3500)){
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Habilitado",
-					"El tipo de licencia:" + this.selectedChofer.getTipoLicencia()+" es correcta. ");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-			
-			
-		}
-		if (tipoLicencia.equals("E") ){
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Habilitado",
-					"El tipo de licencia:" + this.selectedChofer.getTipoLicencia()+" es correcta. ");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-			
-			
-		}
-		if (tipoLicencia.equals("E1") ){
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Habilitado",
-					"El tipo de licencia:" + this.selectedChofer.getTipoLicencia()+" es correcta. ");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-			
-			
-		}
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"Inhabilitado",
-				"El tipo de licencia:" + this.selectedChofer.getTipoLicencia()+" es incorrecta para esta flota. ");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+	public void eliminarCliente() {
 		
 	}
 	

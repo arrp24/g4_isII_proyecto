@@ -1,14 +1,14 @@
-package com.ls.gestion.service.impl;
+package com.service.impl;
 
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import com.ls.gestion.dao.RutaDao;
-import com.ls.gestion.entity.Ruta;
-import com.ls.gestion.service.RutaServicioLocal;
-import com.ls.gestion.service.RutaServicioRemoto;
+import com.gestion.dao.RutaDao;
+import com.gestion.entity.Ruta;
+import com.gestion.service.RutaServicioLocal;
+import com.gestion.service.RutaServicioRemoto;
 
 
 @Stateless
@@ -17,10 +17,7 @@ public class RutaServicioImpl implements RutaServicioRemoto, RutaServicioLocal{
 	 public RutaServicioImpl() {
 
 	    }
-
-	    /**
-	     * RutaDao.
-	     */
+	 
 	    @EJB
 	    private static RutaDao rutaDao;
 

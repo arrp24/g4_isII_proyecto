@@ -2,76 +2,79 @@ package com.ls.gestion.service;
 
 import java.util.List;
 
-import javax.ejb.Remote;
+import javax.ejb.Remoto;
 
-import com.ls.gestion.entity.Archivo;
+import com.gestion.entity.Cliente;
 
-@Remote
-public interface ArchivoServicioRemoto {
+@Remoto
+public interface ClienteServicioRemoto {
 
 	 /**
      * <b>
-     * Se recupera el listado total de los Archivoss
+     * Se recupera el listado total de los Clientes
      * </b>
      * <p>
-     * [Author: katy, Date: Dic 10, 2013]
+     * [Author: Líder, Date: Oct 04, 2013]
      * </p>
      * 
-     * @return List<Archivo>
+     * @return List<Cliente>
      */
     
-	List<Archivo> getAll();
+	List<Cliente> getAll();
 
     /**
      * <b>
-     * Se crea un nuevo Archivo
+     * Se crea un nuevo Cliente
      * </b>
      * <p>
-     * [Author: katy, Date: Dic 10, 2013]
+     * [Author: Líder, Date: Oct 04, 2013]
      * </p>
      * 
-     * @param archivo
+     * @param Cliente
      * @return
      */
-    void crearArchivo(Archivo archivo);
+    void crearCliente(Cliente Cliente);
 
     /**
      * 
      * <b>
-     * Se actualiza un archivo
+     * Se actualiza un Cliente
      * </b>
      * <p>
-     * [Author: katy, Date: Dic 10, 2013]
+     * [Author: Líder, Date: Oct 04, 2013]
      * </p>
      * 
-     * @param archivo
+     * @param Cliente
      * @return
      */
-    void actualizarArchivo(Archivo archivo);
+    void actualizarCliente(Cliente Cliente);
 
     /**
      * <b>
-     * Elimina el archivo pasado por parámetro.
+     * Elimina el Cliente pasado por parámetro.
      * </b>
      * <p>
-     * [Author: katy, Date: Dic 10, 2013]
+     * [Author: Líder, Date: Oct 04, 2013]
      * </p>
      * 
-     * @param codigoArchivo codigo que pertenece al archivo a borrarse
+     * @param codigoCliente codigo que pertenece al Cliente a borrarse
      *           
      */
-    void eliminarArchivo(Integer codigoArchivo);
+    void eliminarCliente(Integer codigoCliente);
 
     /**
      * <b>
-     * Devuelve el archivo buscado por código.
+     * Devuelve el Cliente buscado por código.
      * </b>
      * <p>
-     * [Author: katy, Date: Dic 10, 2013]
+     * [Author: Líder, Date: Oct 04, 2013]
      * </p>
      * 
-     * @param codigo Código del Archivo a buscar.
-     * @return Archivo
+     * @param codigo Código del Cliente a buscar.
+     * @return Cliente
      */
-    Archivo buscarArchivoPorCodigo(Integer codigo);
+    Cliente buscarClientePorCodigo(Integer codigo);
+    
+   
 }
+

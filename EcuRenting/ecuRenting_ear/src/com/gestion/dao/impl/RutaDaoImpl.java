@@ -10,9 +10,6 @@ import com.ls.gestion.entity.Ruta;
 @Stateless
 public class RutaDaoImpl extends GenericDaoImpl<Ruta, Integer> implements RutaDao {
 
-	
-	 /* Constructor
-    */
    public RutaDaoImpl() {
        super(Ruta.class);
    }

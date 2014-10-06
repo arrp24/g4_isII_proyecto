@@ -3,18 +3,15 @@ package com.ls.gestion.dao.impl;
 import javax.ejb.Stateless;
 
 import com.ls.gestion.commons.dao.impl.GenericDaoImpl;
-import com.ls.gestion.dao.EmpresaDao;
-import com.ls.gestion.entity.Empresa;
+import com.ls.gestion.dao.TipoContratoDao;
+import com.ls.gestion.entity.TipoContrato;
 
 
 @Stateless
-public class EmpresaDaoImpl extends GenericDaoImpl<Empresa, Integer> implements EmpresaDao {
+public class TipoContratoDaoImpl extends GenericDaoImpl<TipoContrato, Integer> implements TipoContratoDao {
 
-	
-	 /* Constructor
-     */
-    public EmpresaDaoImpl() {
-        super(Empresa.class);
+    public TipoContratoDaoImpl() {
+        super(TipoContrato.class);
     }
 }
 

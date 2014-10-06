@@ -1,198 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 <h:body>
-	<ui:composition template="../../template/common/layout.xhtml">
-		<ui:define name="title">LOG :: Edición Flotas</ui:define>
-		<ui:define name="content">
-			<h2 class="ui-state-default">Edición de Flotas</h2>
-			<h:form id="formEdit">
-				<p:growl id="growl" showDetail="true" escape="false" />
-				<p:tooltip />
-				<p:dataTable id="dataTable" var="flota" value="#{flotaBacking.flotas}" paginator="true" rows="5"
-					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="5,10,15">
+	<ui:define name="content">
+		<h2 class="ui-state-default">Edición de Clientes</h2>
+		<h:form id="formEdit">
+			<p:growl id="growl" showDetail="true" escape="false" />
+			<p:tooltip />
+			<p:dataTable id="dataTable" var="flota"
+				value="#{flotaBacking.flotas}" paginator="true" rows="5"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
 
-					<p:column>
-						<p:splitButton id="splitBtn" value="Editar" title="Haz clic para editar la flota actual"
-							update=":formEdit :frmEditFlota" oncomplete="dlgEditFlota.show()" icon="ui-icon-pencil">
-							<f:setPropertyActionListener value="#{flota}" target="#{flotaBacking.selectedFlota}" />
-							<p:menuitem value="Eliminar" onclick="confirmation.show()" icon="ui-icon-trash">
-								<f:setPropertyActionListener value="#{flota}" target="#{flotaBacking.selectedFlota}" />
-							</p:menuitem>
-						</p:splitButton>
-					</p:column>
-					
-					<p:column sortBy="#{flota.marca}" headerText="Marca" filterBy="#{flota.marca}" filterMatchMode="contains">
-						<h:outputText value="#{flota.marca}" />
-					</p:column>
+				<p:column>
+					<p:splitButton id="splitBtn" value="Editar"
+						title="Haz clic para editar la flota actual"
+						update=":formEdit :frmEditFlota" oncomplete="dlgEditFlota.show()"
+						icon="ui-icon-pencil">
+						<f:setPropertyActionListener value="#{flota}"
+							target="#{flotaBacking.selectedFlota}" />
+						<p:menuitem value="Eliminar" onclick="confirmation.show()"
+							icon="ui-icon-trash">
+							<f:setPropertyActionListener value="#{flota}"
+								target="#{flotaBacking.selectedFlota}" />
+						</p:menuitem>
+					</p:splitButton>
+				</p:column>
 
-					<p:column sortBy="#{flota.modelo}" headerText="Modelo" filterBy="#{flota.modelo}" filterMatchMode="contains">
-						<h:outputText value="#{flota.modelo}" />
-					</p:column>
-					
-					<p:column sortBy="#{flota.placa}" headerText="Placa" filterBy="#{flota.placa}" filterMatchMode="contains">
-						<h:outputText value="#{flota.placa}" />
-					</p:column>
-					
+				<p:column sortBy="#{flota.marca}" headerText="Marca"
+					filterBy="#{flota.marca}" filterMatchMode="contains">
+					<h:outputText value="#{flota.marca}" />
+				</p:column>
 
-           </p:dataTable>
-				<br />
-				<p:commandButton id="btnNuevoFlota" icon="ui-icon-plusthick" title="Haz clic para agregar una nueva Flota"
-					onclick="dlgNuevoFlota.show();" value="Nuevo" />
+				<p:column sortBy="#{flota.modelo}" headerText="Modelo"
+					filterBy="#{flota.modelo}" filterMatchMode="contains">
+					<h:outputText value="#{flota.modelo}" />
+				</p:column>
 
-				<p:confirmDialog id="confirmDialog" message="Estas seguro que deseas borrar la flota actual?"
-					header="Confirma tu acción" severity="alert" widgetVar="confirmation">
-					<p:commandButton id="confirm" value="Si" update=":formEdit :frmNuevoFlota" oncomplete="confirmation.hide()"
-						actionListener="#{flotaBacking.eliminarFlota()}" />
-					<p:commandButton id="decline" value="No" onclick="confirmation.hide()" type="button" />
-				</p:confirmDialog>
+				<p:column sortBy="#{flota.placa}" headerText="Placa"
+					filterBy="#{flota.placa}" filterMatchMode="contains">
+					<h:outputText value="#{flota.placa}" />
+				</p:column>
 
-			</h:form>
-			
-		<h:form id="frmNuevoFlota">
-			<p:dialog id="dialogoNuevoFlota" widgetVar="dlgNuevoFlota" modal="true" resizable="false"
-					header="Creación Nueva Flota">
-				<h:panelGrid columns="2" cellpadding="5">
-					<h:panelGrid columns="2" cellpadding="5">
-						<h:outputLabel for="txtMarcaNC" value="Marca: *" />
-						<p:inputText id="txtMarcaNC" label="Marca" value="#{flotaBacking.flota.marca}" required="true" />
-						
-						<h:outputLabel for="txtModeloNC" value="Modelo: *" />
-						<p:inputText id="txtModeloNC" label="Modelo" value="#{flotaBacking.flota.modelo}" required="true" />
 
-						<h:outputLabel for="txtPlacaNC" value="Placa: *" />
-						<p:inputText id="txtPlacaNC" label="Placa" value="#{flotaBacking.flota.placa}" required="true" />
+			</p:dataTable>
+			<br />
+			<p:commandButton id="btnNuevoFlota" icon="ui-icon-plusthick"
+				title="Haz clic para agregar una nueva Flota"
+				onclick="dlgNuevoFlota.show();" value="Nuevo" />
 
-						<h:outputLabel for="txtDescripcionNC" value="Descripcion: *" />
-						<p:inputText id="txtDescripcionNC" label="Descripcion" value="#{flotaBacking.flota.descripcion}" required="true" />
+			<p:confirmDialog id="confirmDialog"
+				message="Estas seguro que deseas borrar la flota actual?"
+				header="Confirma tu acción" severity="alert"
+				widgetVar="confirmation">
+				<p:commandButton id="confirm" value="Si"
+					update=":formEdit :frmNuevoFlota" oncomplete="confirmation.hide()"
+					actionListener="#{flotaBacking.eliminarFlota()}" />
+				<p:commandButton id="decline" value="No"
+					onclick="confirmation.hide()" type="button" />
+			</p:confirmDialog>
 
-						<h:outputLabel for="txtAnioFabNC" value="Año Fabricacion: *" />
-						<p:spinner id="txtAnioFabNC" label="Anio Fabricacion" value="#{flotaBacking.flota.anioFabricacion}" required="true" min="1970" max="2020"/>
-						
-						<h:outputLabel for="menuEmpresaNC" value="Empresa : *" />						
-				        <p:selectOneMenu id="menuEmpresaNC" value="#{flotaBacking.flota.empresa}"  converter="#{empresaConvertor}" >
-				          
-				            <f:selectItems value="#{flotaBacking.empresas}" var="empresa" itemValue="#{empresa}" itemLabel="#{empresa.nombre}" />
-				            
-				        </p:selectOneMenu>
-						
-						<h:outputLabel for="txtCapacidadNC" value="Capacidad : *" />
-						<p:inputText id="txtCapacidadNC" label="Capacidad" value="#{flotaBacking.flota.capacidad}" required="true" />
-					</h:panelGrid>
-					
-					<h:panelGrid columns="2" cellpadding="5">
-						<h:outputLabel for="txtColorNC" value="Color : *" />
-						<p:inputText id="txtColorNC" label="Color" value="#{flotaBacking.flota.color}" required="true" />
-						
-						<h:outputLabel for="txtFechaAdNC" value="Fecha de Matricula : *" />
-						<p:calendar id="txtFechaAdNC" label="Fecha de Matricula" value="#{flotaBacking.flota.fechaAdquisicion}" required="true" pattern="dd-MM-yyyy" mask="true" />
- 
-						
-						<h:outputLabel for="txtMatriculaNC" value="Dia Pico y Placa : *" />
-							<p:selectOneMenu id="txtMatriculaNC" label="Pico y Placa" value="#{flotaBacking.flota.picoPlaca}" panelStyle="width:160px" required="true" 
-			                         effect="fade"  style="width:220px" >
-								<f:selectItem  itemValue="Lunes" itemLabel="Lunes" />
-								<f:selectItem  itemValue="Martes" itemLabel="Martes" />
-								<f:selectItem  itemValue="Miercoles" itemLabel="Miercoles" />
-								<f:selectItem  itemValue="Jueves" itemLabel="Jueves" />
-								<f:selectItem  itemValue="Viernes" itemLabel="Viernes" />
-			       			</p:selectOneMenu>
-						<h:outputText value="Chasis:" />
-							<h:inputText id="chasis" value="#{flotaBacking.flota.chasis}" />
-
-						<h:outputText value="Motor:" />
-							<h:inputText id="motor" value="#{flotaBacking.flota.motor}" />
-							
-						<h:outputText value="CPN:" />
-							<h:inputText id="cpn" value="#{flotaBacking.flota.cpn}" />
-							
-						<h:outputText value="Estado:" />
-							<h:inputText id="estado" value="#{flotaBacking.flota.estado}" />
-					</h:panelGrid>
-					
-						<f:facet name="footer">
-							<p:commandButton id="btnGuardarNuevo" value="Guardar" actionListener="#{flotaBacking.crearFlota()}"
-								update=":frmNuevoFlota :formEdit" />
-							<p:commandButton id="btnCancelarNuevo" value="Cancelar" onclick="dlgNuevoFlota.hide()" />
-						</f:facet>
-				</h:panelGrid>
-			</p:dialog>
 		</h:form>
-			
-			<h:form id="frmEditFlota">
-				<p:dialog id="dialogoEditFlota" widgetVar="dlgEditFlota" modal="true" resizable="false"
-					header="Edición de Flota">
-					<h:panelGrid columns="2" cellpadding="5">
-						<h:panelGrid columns="2" cellpadding="5">
-						<h:outputLabel for="txtMarcaNC" value="Marca: *" />
-						<p:inputText id="txtMarcaNC" label="Marca" value="#{flotaBacking.selectedFlota.marca}" required="true" />
-						
-						<h:outputLabel for="txtModeloNC" value="Modelo: *" />
-						<p:inputText id="txtModeloNC" label="Modelo" value="#{flotaBacking.selectedFlota.modelo}" required="true" />
 
-						<h:outputLabel for="txtPlacaNC" value="Placa: *" />
-						<p:inputText id="txtPlacaNC" label="Placa" value="#{flotaBacking.selectedFlota.placa}" required="true" />
-
-						<h:outputLabel for="txtDescripcionNC" value="Descripcion: *" />
-						<p:inputText id="txtDescripcionNC" label="Descripcion" value="#{flotaBacking.selectedFlota.descripcion}" required="true" />
-
-						<h:outputLabel for="txtAnioFabNC" value="Año Fabricacion: *" />
-						<p:spinner id="txtAnioFabNC" label="Anio Fabricacion" value="#{flotaBacking.selectedFlota.anioFabricacion}" required="true" min="1970" max="2020"/>
-						
-						<h:outputLabel for="menuEmpresaNC" value="Empresa : *" />						
-				        <p:selectOneMenu id="menuEmpresaNC" value="#{flotaBacking.selectedFlota.empresa}"  converter="#{empresaConvertor}" >
-				          
-				            <f:selectItems value="#{empresaBacking.empresas}" var="empresa" itemValue="#{empresa}"  itemLabel="#{empresa.nombre}" />
-				            
-				        </p:selectOneMenu>
-						
-						<h:outputLabel for="txtCapacidadNC" value="Capacidad : *" />
-						<p:inputText id="txtCapacidadNC" label="Capacidad" value="#{flotaBacking.selectedFlota.capacidad}" required="true" />
-					</h:panelGrid>
-					
-					<h:panelGrid columns="2" cellpadding="5">
-						<h:outputLabel for="txtColorNC" value="Color : *" />
-						<p:inputText id="txtColorNC" label="Color" value="#{flotaBacking.selectedFlota.color}" required="true" />
-						
-						<h:outputLabel for="txtFechaAdNC" value="Fecha de Matricula : *" />
-						<p:calendar id="txtFechaAdNC" label="Fecha de Matricula" value="#{flotaBacking.selectedFlota.fechaAdquisicion}" required="true" pattern="dd-MM-yyyy" mask="true" />
- 
-						
-						<h:outputLabel for="txtMatriculaNC" value="Dia Pico y Placa : *" />
-							<p:selectOneMenu id="txtMatriculaNC" label="Pico y Placa" value="#{flotaBacking.selectedFlota.picoPlaca}" panelStyle="width:160px" required="true" 
-			                         effect="fade"  style="width:220px" >
-								<f:selectItem  itemValue="Lunes" itemLabel="Lunes" />
-								<f:selectItem  itemValue="Martes" itemLabel="Martes" />
-								<f:selectItem  itemValue="Miercoles" itemLabel="Miercoles" />
-								<f:selectItem  itemValue="Jueves" itemLabel="Jueves" />
-								<f:selectItem  itemValue="Viernes" itemLabel="Viernes" />
-			       			</p:selectOneMenu>
-						<h:outputText value="Chasis:" />
-							<h:inputText id="chasis" value="#{flotaBacking.selectedFlota.chasis}" />
-
-						<h:outputText value="Motor:" />
-							<h:inputText id="motor" value="#{flotaBacking.selectedFlota.motor}" />
-							
-						<h:outputText value="CPN:" />
-							<h:inputText id="cpn" value="#{flotaBacking.selectedFlota.cpn}" />
-							
-						<h:outputText value="Estado:" />
-							<h:inputText id="estado" value="#{flotaBacking.selectedFlota.estado}" />
-					</h:panelGrid>
-				
-						
-						<f:facet name="footer">
-							<p:commandButton id="btnGuardarEdicion" value="Guardar" actionListener="#{flotaBacking.actualizarFlota()}"
-								update=":frmEditFlota :formEdit" />
-							<p:commandButton id="btnCancelarEdicion" value="Cancelar" onclick="dlgEditFlota.hide()" />
-						</f:facet>
-					</h:panelGrid>
-				</p:dialog>
-			</h:form>
-		</ui:define>
+		<h:form>
+			<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
+				<h:outputLabel for="cedula" value="CEDULA*:" />
+				<p:inplace id="cedula">
+					<p:inputText value="#{clienteBacking.cliCedula}" />
+				</p:inplace>
+				<h:outputLabel for="nombre" value="NOMBRE*:" />
+				<p:inplace id="nombre">
+					<p:inputText value="#{clienteBacking.cliNombre}" />
+				</p:inplace>
+				<h:outputLabel for="apellido" value="APELLIDO*:" />
+				<p:inplace id="apellido">
+					<p:inputText value="#{clienteBacking.cliApellido}" />
+				</p:inplace>
+				<h:outputLabel for="empresa" value="EMPRESA*:" />
+				<p:inplace id="empresa">
+					<p:inputText value="#{clienteBacking.cliEmpresa" />
+				</p:inplace>
+				<h:outputLabel for="email" value="EMAIL*:" />
+				<p:inplace id="email">
+					<p:inputText value="#{clienteBacking.cliEmail}" />
+				</p:inplace>
+				<h:outputLabel for="telefono" value="TELEFONO*:" />
+				<p:inplace id="telefono">
+					<p:inputText value="#{clienteBacking.cliTelefono}" mask="(999) 999-9999" />
+				</p:inplace>
+			</h:panelGrid>
+			<p:commandButton value="GUARDAR" update="display" icon="ui-icon-disk" />
+		</h:form>
+	</ui:define>
 	</ui:composition>
 </h:body>
 </html>

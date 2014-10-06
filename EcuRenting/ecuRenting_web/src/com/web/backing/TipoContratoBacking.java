@@ -14,114 +14,102 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.ToggleEvent;
 
 import com.ls.gestion.entity.Chofer;
-import com.ls.gestion.entity.Empresa;
-import com.ls.gestion.service.EmpresaServicioLocal;
+import com.ls.gestion.entity.TipoContrato;
+import com.ls.gestion.service.TipoContratoServicioLocal;
 
 
-@ManagedBean(name = "empresaBacking")
+@ManagedBean(name = "tipoContratoBacking")
 @ViewScoped
-public class EmpresaBacking implements Serializable {
+public class TipoContratoBacking implements Serializable {
 	
 	private static final long serialVersionUID = 5297201599173897134L;
 
 	@EJB
-	private EmpresaServicioLocal empresaServicio;
+	private TipoContratoServicioLocal tipoContratoServicio;
 	
-	private List<Empresa> empresas;
-	private Empresa empresa;
-	private Empresa selectedEmpresa;
+	private List<TipoContrato> tipoContratos;
+	private TipoContrato tipoContrato;
+	private TipoContrato selectedTipoContrato;
 
 	
-	 public EmpresaBacking() {
-	        this.empresa = new Empresa();
+	 public TipoContratoBacking() {
+	        this.tipoContrato = new TipoContrato();
 	    }
 
 	    
 	@PostConstruct
 	public void init() {
 		
-		this.empresas = empresaServicio.getAll();
+		this.tipoContratos = tipoContratoServicio.getAll();
 	}
 
 
-	public EmpresaServicioLocal getEmpresaServicio() {
-		return empresaServicio;
+	public TipoContratoServicioLocal getTipoContratoServicio() {
+		return tipoContratoServicio;
 	}
 
 
-	public void setEmpresaServicio(EmpresaServicioLocal empresaServicio) {
-		this.empresaServicio = empresaServicio;
+	public void setTipoContratoServicio(TipoContratoServicioLocal tipoContratoServicio) {
+		this.tipoContratoServicio = tipoContratoServicio;
 	}
 
 
-	public List<Empresa> getEmpresas() {
-		return empresas;
+	public List<TipoContrato> getTipoContratos() {
+		return tipoContratos;
 	}
 
 
-	public void setEmpresas(List<Empresa> empresas) {
-		this.empresas = empresas;
+	public void setTipoContratos(List<TipoContrato> tipoContratos) {
+		this.tipoContratos = tipoContratos;
 	}
 
 
-	public Empresa getEmpresa() {
-		return empresa;
+	public TipoContrato getTipoContrato() {
+		return tipoContrato;
 	}
 
 
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
+	public void setTipoContrato(TipoContrato tipoContrato) {
+		this.tipoContrato = tipoContrato;
 	}
 
 
-	public Empresa getSelectedEmpresa() {
-		return selectedEmpresa;
+	public TipoContrato getSelectedTipoContrato() {
+		return selectedTipoContrato;
 	}
 
 
-	public void setSelectedEmpresa(Empresa selectedEmpresa) {
-		this.selectedEmpresa = selectedEmpresa;
+	public void setSelectedTipoContrato(TipoContrato selectedTipoContrato) {
+		this.selectedTipoContrato = selectedTipoContrato;
 	}
 	
 	
-	 public void crearEmpresa() {
+	 public void crearTipoContrato() {
 	       
-	        empresaServicio.crearEmpresa(empresa);
-	        empresa = new Empresa();
-	        empresas = empresaServicio.getAll();
+	        tipoContratoServicio.crearTipoContrato(tipoContrato);
+	        tipoContrato = new TipoContrato();
+	        tipoContratos = tipoContratoServicio.getAll();
 	        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Creación Exitosa",
 	                "Se ha creado un nuevo Usuario exitosamente!");
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 	    }
 	 
-	    public void actualizarEmpresa() {
-	        empresaServicio.actualizarEmpresa(this.selectedEmpresa);
+	    public void actualizarTipoContrato() {
+	        tipoContratoServicio.actualizarTipoContrato(this.selectedTipoContrato);
 	        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización Exitosa",
-	                "Se ha actualizado exitosamente el usuario \"" + this.selectedEmpresa.getNombre() + "\"");
+	                "Se ha actualizado exitosamente el usuario \"" + this.selectedTipoContrato.getNombre() + "\"");
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
-	        this.selectedEmpresa = null;
+	        this.selectedTipoContrato = null;
 	    }
 	 
 
-	    public void eliminarEmpresa() {
-	        if (this.selectedEmpresa != null) {
-	            empresaServicio.eliminarEmpresa(selectedEmpresa.getId());
-
-	            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminación Exitosa",
-	                    "Se ha borrado exitosamente la empresa \"" + this.selectedEmpresa.getNombre() + "\"");
-	            FacesContext.getCurrentInstance().addMessage(null, msg);
-	            this.selectedEmpresa = null;
-	            this.empresas = empresaServicio.getAll();
-	        } else {
-	            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de Selección",
-	                    "Ha ocurrido un error al seleccionar la empresa");
-	            FacesContext.getCurrentInstance().addMessage(null, msg);
-	        }
+	    public void eliminarTipoContrato() {
+	        
 	    }
 	    
 	    public void onRowToggle(ToggleEvent event) {
-	        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Empresa " + event.getVisibility(), "Nombre: "
-	                + ((Empresa) event.getData()).getNombre());
+	        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "TipoContrato " + event.getVisibility(), "Nombre: "
+	                + ((TipoContrato) event.getData()).getNombre());
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 	    }
 	    

@@ -1,74 +1,74 @@
-package com.ls.gestion.service;
+package com.service;
 
 
 import java.util.List;
 import javax.ejb.Remote;
-import com.ls.gestion.entity.Empresa;
+import com.gestion.entity.Vehiculo;
 
 @Remote
-public interface EmpresaServicioRemoto {
+public interface VehiculoServicioRemoto {
 
 	 /**
      * <b>
-     * Se recupera el listado total de las empresas
+     * Se recupera el listado total de los Vehiculos
      * </b>
      * <p>
-     * [Author: katy, Date: Jun 14, 2014]
+     * [Author: Desarrollo, Date: Oct 04, 2014]
      * </p>
      * 
-     * @return List<Empresa>
+     * @return List<Vehiculo>
      */
-    List<Empresa> getAll();
+    List<Vehiculo> getAll();
 
     /**
      * <b>
-     * Se crea una nueva Empresa
+     * Se crea un nuevo Vehiculo
      * </b>
      * <p>
-     * [Author: katy, Date: Jun 14, 2014]
+     * [Author: Desarrollo, Date: Oct 04, 2014]
      * </p>
      * 
-     * @param empresa
+     * @param Vehiculo
      * @return
      */
-    void crearEmpresa (Empresa empresa);
+    void crearVehiculo (Vehiculo Vehiculo);
 
     /**
-     * Se actualiza una empresa
+     * Se actualiza una Vehiculo
      * <b>
      * <p>
-     * [Author: katy, Date: Jun 14, 2014]
+     * [Author: Desarrollo, Date: Oct 04, 2014]
      * </p>
      * 
-     * @param empresa
+     * @param Vehiculo
      * @return
      */
-    void actualizarEmpresa(Empresa empresa);
+    void actualizarVehiculo(Vehiculo Vehiculo);
 
     /**
      * <b>
-     * Elimina la empresa pasada por parámetro.
+     * Elimina el Vehiculo pasado por parámetro.
      * </b>
      * <p>
-     * [Author: katy, Date: Jun 14, 2014]
+     * [Author: Desarrollo, Date: Oct 04, 2014]
      * </p>
      * 
-     * @param codigoEmpresa
-     *            Codigo de la Empresa a ser borrado
+     * @param codigoVehiculo
+     *            Codigo del Vehiculo a ser borrado
      */
-    void eliminarEmpresa(Integer codigoEmpresa);
+    void eliminarVehiculo(Integer codigoVehiculo);
 
     /**
      * <b>
-     * Devuelve una empresa busacada por código.
+     * Devuelve un Vehiculo busacado por código.
      * </b>
      * <p>
-     * [Author: katy, Date: Jun 14, 2014]
+     * [Author: Desarrollo, Date: Oct 04, 2014]
      * </p>
      * 
      * @param codigo
      *            Código a buscar.
-     * @return Empresa
+     * @return Vehiculo
      */
-    Empresa buscarEmpresaPorCodigo(Integer codigo);
+    Vehiculo buscarVehiculoPorCodigo(Integer codigo);
 }

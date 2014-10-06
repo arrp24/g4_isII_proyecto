@@ -1,77 +1,77 @@
-package com.ls.gestion.service;
+package com.service;
 
 import java.util.List;
 
 import javax.ejb.Remote;
 
-import com.ls.gestion.entity.PedidoEntrega;;
+import com.gestion.entity.TipoContrato;;
 
 @Remote
-public interface PedidoEntregaServicioRemoto {
+public interface TipoContratoServicioRemoto {
 
 	 /**
      * <b>
-     * Se recupera el listado total de las PedidoEntregas
+     * Se recupera el listado total de las TipoContratos
      * </b>
      * <p>
-     * [Author: katy, Date: Jun 18, 2014]
+     * [Author: Líder, Date: Oct 04, 2014]
      * </p>
      * 
-     * @return List<PedidoEntrega>
+     * @return List<TipoContrato>
      */
     
-	List<PedidoEntrega> getAll();
+	List<TipoContrato> getAll();
 
     /**
      * <b>
-     * Se crea una nueva PedidoEntrega
+     * Se crea una nueva TipoContrato
      * </b>
      * <p>
-     * [Author: katy, Date: Jun 18, 2014]
+     * [Author: Líder, Date: Oct 04, 2014]
      * </p>
      * 
-     * @param flota
+     * @param tipoContrato
      * @return
      */
-    void crearPedidoEntrega(PedidoEntrega flota);
+    void crearTipoContrato(TipoContrato tipoContrato);
 
     /**
      * 
      * <b>
-     * Se actualiza una flota
+     * Se actualiza una tipoContrato
      * </b>
      * <p>
-     * [Author: katy, Date: Jun 18, 2014]
+     * [Author: Líder, Date: Oct 04, 2014]
      * </p>
      * 
-     * @param flota
+     * @param tipoContrato
      * @return
      */
-    void actualizarPedidoEntrega(PedidoEntrega flota);
+    void actualizarTipoContrato(TipoContrato tipoContrato);
 
     /**
      * <b>
-     * Elimina la flota pasada por parámetro.
+     * Elimina la tipoContrato pasada por parámetro.
      * </b>
      * <p>
-     * [Author: katy, Date: Jun 18, 2014]
+     * [Author: Líder, Date: Oct 04, 2014]
      * </p>
      * 
-     * @param codigoPedidoEntrega codigo que pertenece a la flota a borrarse
+     * @param codigoTipoContrato codigo a borrarse
      *           
      */
-    void eliminarPedidoEntrega(Integer codigoPedidoEntrega);
+    void eliminarTipoContrato(Integer codigoTipoContrato);
 
     /**
      * <b>
-     * Devuelve la flota buscada por código.
+     * Devuelve la tipoContrato buscada por código.
      * </b>
      * <p>
-     * [Author: katy, Date: Jun 18, 2014]
+     * [Author: Líder, Date: Oct 04, 2014]
      * </p>
      * 
-     * @param codigo Código de la PedidoEntrega a buscar.
-     * @return PedidoEntrega
+     * @param codigo Código de la TipoContrato a buscar.
+     * @return TipoContrato
      */
-     PedidoEntrega buscarPedidoEntregaPorCodigo(Integer codigo);
+     TipoContrato buscarTipoContratoPorCodigo(Integer codigo);
 }

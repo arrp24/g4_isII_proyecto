@@ -1,47 +1,39 @@
-/*
- * Copyright 2013 LIBRESOFT S.A. - ECUADOR 
- * Todos los derechos reservados
- */
-
-package com.ls.gestion.service;
+package com.service;
 
 import java.util.List;
 
 import javax.ejb.Local;
 
-import com.ls.gestion.entity.Log;
+import com.ls.gestion.entity.Taller;
 
 /**
- * <b> Interfaz del servicio <b>Local</b> para el Log de logeo al sistema. </b>
+ * <b> Interfaz del servicio <b>Remoto</b> para el Taller de Tallereo al sistema. </b>
  * 
- * @author joselo
- * @version $Revision: 1.0 $
- *          <p>
- *          [$Author: joselo $, $Date: 08/08/2013 $]
- *          </p>
+ * @author Calidad
+ * <p>
+ * [$Author: Calidad $, $Date: 05 del 2014 $]
+ * </p>
  */
 @Local
-public interface LogServicioLocal {
-
+public interface TallerServicioRemoto {
     /**
-     * <b> Crea un log de logeo en la base. </b>
+     * <b> Crea un Taller de Tallereo en la base. </b>
      * <p>
-     * [Author: joselo, Date: 08/08/2013]
+     * [Author: Calidad, Date: 05 del 2014]
      * </p>
      * 
-     * @param nuevoLog
-     *            Log a guardar
+     * @param nuevoTaller
+     *            Taller a guardar
      */
-    void crearLog(Log nuevoLog);
+    void crearTaller(Taller nuevoTaller);
 
     /**
-     * <b> Devuelve una lista completa de todos los logs del sistema. </b>
+     * <b> Devuelve una lista completa de todos los Tallers del sistema. </b>
      * <p>
-     * [Author: joselo, Date: 08/08/2013]
+     * [Author: Calidad, Date: 05 del 2014]
      * </p>
      * 
-     * @return List<Log>
+     * @return List<Taller>
      */
-    public List<Log> getAll();
-
+    public List<Taller> getAll();
 }

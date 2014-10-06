@@ -2,14 +2,14 @@ package com.ls.gestion.dao.impl;
 
 import javax.ejb.Stateless;
 import com.ls.gestion.commons.dao.impl.GenericDaoImpl;
-import com.ls.gestion.dao.ChoferDao;
-import com.ls.gestion.entity.Chofer;
+import com.ls.gestion.dao.ClienteDao;
+import com.ls.gestion.entity.Cliente;
 
 @Stateless
 
-public class ChoferDaoImpl extends GenericDaoImpl<Chofer, Integer> implements ChoferDao  {
+public class ClienteDaoImpl extends GenericDaoImpl<Cliente, Integer> implements ClienteDao  {
 
-	public ChoferDaoImpl() {
-        super(Chofer.class);
+	public ClienteDaoImpl() {
+        super(Cliente.class);
     }
 }

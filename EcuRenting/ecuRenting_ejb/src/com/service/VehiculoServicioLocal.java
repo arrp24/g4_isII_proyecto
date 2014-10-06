@@ -1,77 +1,74 @@
-package com.ls.gestion.service;
+package com.service;
+
 
 import java.util.List;
-
 import javax.ejb.Local;
-
-import com.ls.gestion.entity.Empresa;
+import com.gestion.entity.Vehiculo;
 
 @Local
-public interface EmpresaServicioLocal {
+public interface VehiculoServicioLocal {
 
 	 /**
-	    * <b>
-	    * Se recupera el listado total de Empresas
-	    * </b>
-	    * <p>
-	    * [Author: katy, Date: Jun 18, 2014]
-	    * </p>
-	    * 
-	    * @return List<Empresa>
-	    */
-	   
-		List<Empresa> getAll();
+     * <b>
+     * Se recupera el listado total de los Vehiculos
+     * </b>
+     * <p>
+     * [Author: Desarrollo, Date: Oct 04, 2014]
+     * </p>
+     * 
+     * @return List<Vehiculo>
+     */
+    List<Vehiculo> getAll();
 
-	   /**
-	    * <b>
-	    * Se crea una nueva Empresa
-	    * </b>
-	    * <p>
-	    * [Author: katy, Date: Jun 18, 2014]
-	    * </p>
-	    * 
-	    * @param empresa
-	    * @return
-	    */
-	   void crearEmpresa(Empresa empresa);
+    /**
+     * <b>
+     * Se crea un nuevo Vehiculo
+     * </b>
+     * <p>
+     * [Author: Desarrollo, Date: Oct 04, 2014]
+     * </p>
+     * 
+     * @param Vehiculo
+     * @return
+     */
+    void crearVehiculo (Vehiculo Vehiculo);
 
-	   /**
-	    * 
-	    * <b>
-	    * Se actualiza una empresa
-	    * </b>
-	    * <p>
-	    * [Author: katy, Date: Jun 18, 2014]
-	    * </p>
-	    * 
-	    * @param empresa
-	    * @return
-	    */
-	   void actualizarEmpresa(Empresa empresa);
+    /**
+     * Se actualiza una Vehiculo
+     * <b>
+     * <p>
+     * [Author: Desarrollo, Date: Oct 04, 2014]
+     * </p>
+     * 
+     * @param Vehiculo
+     * @return
+     */
+    void actualizarVehiculo(Vehiculo Vehiculo);
 
-	   /**
-	    * <b>
-	    * Elimina la empresa pasado por parámetro.
-	    * </b>
-	    * <p>
-	    * [Author: katy, Date: Jun 18, 2014]
-	    * </p>
-	    * 
-	    * @param codigoEmpresa codigo que pertenece a la empresa a borrarse
-	    *           
-	    */
-	   void eliminarEmpresa(Integer codigoEmpresa);
+    /**
+     * <b>
+     * Elimina el Vehiculo pasado por parámetro.
+     * </b>
+     * <p>
+     * [Author: Desarrollo, Date: Oct 04, 2014]
+     * </p>
+     * 
+     * @param codigoVehiculo
+     *            Codigo del Vehiculo a ser borrado
+     */
+    void eliminarVehiculo(Integer codigoVehiculo);
 
-	   /**
-	    * <b>
-	    * Devuelve la empresa buscada por código.
-	    * </b>
-	    * <p>
-	    * [Author: katy, Date: Jun 18, 2014]
-	    * </p>
-	    * 
-	    * @param codigo Código de la Empresa a buscar.
-	    * @return Empresa
-	    */
-	   Empresa buscarEmpresaPorCodigo(Integer codigo);
+    /**
+     * <b>
+     * Devuelve un Vehiculo busacado por código.
+     * </b>
+     * <p>
+     * [Author: Desarrollo, Date: Oct 04, 2014]
+     * </p>
+     * 
+     * @param codigo
+     *            Código a buscar.
+     * @return Vehiculo
+     */
+    Vehiculo buscarVehiculoPorCodigo(Integer codigo);
 }

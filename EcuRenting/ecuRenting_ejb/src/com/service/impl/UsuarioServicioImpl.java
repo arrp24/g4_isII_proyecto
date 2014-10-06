@@ -1,15 +1,15 @@
-package com.ls.gestion.service.impl;
+package com.service.impl;
 
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import com.ls.gestion.dao.UsuarioDao;
-import com.ls.gestion.entity.OpcionMenuPorRol;
-import com.ls.gestion.entity.Usuario;
-import com.ls.gestion.service.UsuarioServicioLocal;
-import com.ls.gestion.service.UsuarioServicioRemoto;
+import com.gestion.dao.UsuarioDao;
+import com.gestion.entity.OpcionMenuPorRol;
+import com.gestion.entity.Usuario;
+import com.gestion.service.UsuarioServicioLocal;
+import com.gestion.service.UsuarioServicioRemoto;
 
 @Stateless
 public class UsuarioServicioImpl implements UsuarioServicioRemoto,
@@ -19,10 +19,7 @@ public class UsuarioServicioImpl implements UsuarioServicioRemoto,
     {
 
     }
-
-    /**
-     * UsuarioDao.
-     */
+    
     @EJB
     private static UsuarioDao usuarioDao;
 
