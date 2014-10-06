@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="../../template/common/layout.xhtml">
+		<ui:define name="title">LOG :: Consulta Flotas</ui:define>
+		<ui:define name="content">
+			<h2 class="ui-state-default">Consulta de Flotas</h2>
+			<h:form id="formEdit">
+			
+			<p:growl id="messages" showDetail="true" />
+				<p:tooltip />
+				
+				<p:dataTable id="dataTable" var="flota" value="#{flotaBacking.flotas}" paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+
+					<p:ajax event="rowToggle" listener="#{flotaBacking.onRowToggle}" update=":formEdit:messages" />
+					
+					<p:column>
+						<p:rowToggler />
+					</p:column>
+
+
+					<p:column sortBy="#{flota.marca}" headerText="Marca" filterBy="#{flota.marca}"
+						filterMatchMode="contains">
+						<h:outputText value="#{flota.marca}" />
+					</p:column>
+
+					<p:column sortBy="#{flota.modelo}" headerText="Modelo" filterBy="#{flota.modelo}"
+						filterMatchMode="contains">
+						<h:outputText value="#{flota.modelo}" />
+					</p:column>
+
+					<p:column sortBy="#{flota.placa}" headerText="Placa" filterBy="#{flota.placa}"
+						filterMatchMode="contains">
+						<h:outputText value="#{flota.placa}" />
+					</p:column>
+					
+					<p:rowExpansion>
+						<h:panelGrid id="display" columns="2" cellpadding="4" style="width:300px;" styleClass="grid expandableGrid">
+
+				
+							<h:outputText value="Marca:" />
+							<h:outputText id="marca" value="#{flota.marca}" />
+
+							<h:outputText value="Modelo:" />
+							<h:outputText id="modelo" value="#{flota.modelo}" />
+
+							<h:outputText value="Placa:" />
+							<h:outputText id="placa" value="#{flota.placa}" />
+
+							<h:outputText value="Color:" />
+							<h:outputText id="color" value="#{flota.color}" />
+
+							<h:outputText value="Fecha de Adquisición:" />
+							<h:outputText id="adquisicion" value="#{flota.fechaAdquisicion}" />
+							
+							<h:outputText value="Año Fabricación:" />
+							<h:outputText id="fabricacion" value="#{flota.anioFabricacion}" />
+							
+							<h:outputText value="Descripcion:" />
+							<h:outputText id="descripcion" value="#{flota.descripcion}" />
+							
+							<h:outputText value="Capacidad:" />
+							<h:outputText id="capacidad" value="#{flota.capacidad}" />
+							
+							<h:outputText value="Matricula:" />
+							<h:outputText id="matricula" value="#{flota.fechaMatricula}" />
+							
+							<h:outputText value="Día Pico y Placa:" />
+							<h:outputText id="picoPlaca" value="#{flota.picoPlaca}" />
+							
+							<h:outputText value="Chasis:" />
+							<h:outputText id="chasis" value="#{flota.chasis}" />
+
+							<h:outputText value="Motor:" />
+							<h:outputText id="motor" value="#{flota.motor}" />
+							
+							<h:outputText value="CPN:" />
+							<h:outputText id="cpn" value="#{flota.cpn}" />
+							
+							<h:outputText value="Estado:" />
+							<h:outputText id="estado" value="#{flota.estado}" />
+				
+								</h:panelGrid>
+					</p:rowExpansion>
+					
+				</p:dataTable>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

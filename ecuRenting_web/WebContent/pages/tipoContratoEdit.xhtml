@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="../../template/common/layout.xhtml">
+		<ui:define name="title">LOG :: Edición Choferes</ui:define>
+		<ui:define name="content">
+			<h2 class="ui-state-default">Edición de Choferes</h2>
+			<h:form id="formEdit">
+				<p:growl id="growl" showDetail="true" escape="false" />
+				<p:tooltip />
+				<p:dataTable id="dataTable" var="chofer" value="#{choferBacking.choferes}" paginator="true" rows="5"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+
+					<p:column>
+						<p:splitButton id="splitBtn" value="Editar" title="Haz clic para editar el Chofer actual"
+							update=":formEdit :frmEditChofer" oncomplete="dlgEditChofer.show()" icon="ui-icon-pencil">
+							<f:setPropertyActionListener value="#{chofer}" target="#{choferBacking.selectedChofer}" />
+							<p:menuitem value="Eliminar" onclick="confirmation.show()" icon="ui-icon-trash">
+								<f:setPropertyActionListener value="#{chofer}" target="#{choferBacking.selectedChofer}" />
+							</p:menuitem>
+						</p:splitButton>
+					</p:column>
+					
+					<p:column sortBy="#{chofer.cedula}" headerText="Cédula" filterBy="#{chofer.cedula}" filterMatchMode="contains">
+						<h:outputText value="#{chofer.cedula}" />
+					</p:column>
+
+					<p:column sortBy="#{chofer.nombre}" headerText="Nombre" filterBy="#{chofer.nombre}" filterMatchMode="contains">
+						<h:outputText value="#{chofer.nombre}" />
+					</p:column>
+					
+					<p:column sortBy="#{chofer.tipoLicencia}" headerText="Tipo Licencia" filterBy="#{chofer.tipoLicencia}" filterMatchMode="contains">
+						<h:outputText value="#{chofer.tipoLicencia}" />
+					</p:column>
+
+           </p:dataTable>
+				<br />
+				<p:commandButton id="btnNuevoChofer" icon="ui-icon-plusthick" title="Haz clic para agregar un nuevo Chofer"
+					onclick="dlgNuevoChofer.show();" value="Nuevo" />
+
+				<p:confirmDialog id="confirmDialog" message="Estas seguro que deseas borrar el chofer actual?"
+					header="Confirma tu acción" severity="alert" widgetVar="confirmation">
+					<p:commandButton id="confirm" value="Si" update=":formEdit :frmNuevoChofer" oncomplete="confirmation.hide()"
+						actionListener="#{choferBacking.eliminarChofer()}" />
+					<p:commandButton id="decline" value="No" onclick="confirmation.hide()" type="button" />
+				</p:confirmDialog>
+
+			</h:form>
+
+			<h:form id="frmNuevoChofer">
+				<p:dialog id="dialogoNuevoChofer" widgetVar="dlgNuevoChofer" modal="true" resizable="false"
+					header="Creación Nuevo Chofer">
+					<h:panelGrid columns="2" cellpadding="5">
+					
+						<h:outputLabel for="txtCedulaNC" value="Cédula: *" />
+						<p:inputText id="txtCedulaNC" label="Cedula" value="#{choferBacking.chofer.cedula}" required="true" />
+						
+						<h:outputLabel for="txtNombreNC" value="Nombre: *" />
+						<p:inputText id="txtNombreNC" label="Nombre" value="#{choferBacking.chofer.nombre}" required="true" />
+
+						<h:outputLabel for="txtTelefonoNC" value="Teléfono: *" />
+						<p:inputText id="txtTelefonoNC" label="Teléfono" value="#{choferBacking.chofer.telefono}" required="true" />
+
+						<h:outputLabel for="txtDireccionNC" value="Dirección: *" />
+						<p:inputText id="txtDireccionNC" label="Dirección" value="#{choferBacking.chofer.direccion}" required="true" />
+
+						<h:outputLabel for="menuLicenciaNC" value="Tipo Licencia: *" />
+						<p:selectOneMenu id="menuLicenciaNC" value="#{choferBacking.chofer.tipoLicencia}" label="Licencia"
+                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+          					 
+          					  <f:selectItem itemValue="C" itemLabel="C"/>
+          					  <f:selectItem itemValue="C1" itemLabel="C1"/>
+          					  <f:selectItem itemValue="D" itemLabel="D"/>
+          					  <f:selectItem itemValue="D1" itemLabel="D1"/>
+          					  <f:selectItem itemValue="E" itemLabel="E"/>
+          					  <f:selectItem itemValue="E1" itemLabel="E1"/>
+          					  <f:selectItem itemValue="A1" itemLabel="A1"/>
+          					 
+        				</p:selectOneMenu>
+        				<h:outputLabel for="menuResctriccionNC" value="Restricción noche: *" />
+						<p:selectOneMenu id="menuResctriccionNC" value="#{choferBacking.chofer.restriccionNoche}" label="Licencia">         					 
+          					  <f:selectItem itemValue="S" itemLabel="SI"/>
+          					  <f:selectItem itemValue="N" itemLabel="NO"/>          					 
+        				</p:selectOneMenu>
+						<f:facet name="footer">
+							<p:commandButton id="btnGuardarNuevo" value="Guardar" actionListener="#{choferBacking.crearChofer()}"
+								update=":frmNuevoChofer :formEdit" />
+							<p:commandButton id="btnCancelarNuevo" value="Cancelar" onclick="dlgNuevoChofer.hide()" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="frmEditChofer">
+				<p:dialog id="dialogoEditChofer" widgetVar="dlgEditChofer" modal="true" resizable="false"
+					header="Edición de Chofer">
+					<h:panelGrid columns="2" cellpadding="5">
+
+				
+						<h:outputLabel for="txtCedulaEC" value="Cédula: *" />
+						<p:inputText id="txtCedulaEU" label="Cédula" value="#{choferBacking.selectedChofer.cedula}" required="true" />
+
+						<h:outputLabel for="txtNombreEC" value="Nombre: *" />
+						<p:inputText id="txtNombreEU" label="Nombre" value="#{choferBacking.selectedChofer.nombre}" required="true" />
+
+						<h:outputLabel for="txtTelefonoEC" value="Teléfono: *" />
+						<p:inputText id="txtTelefonoEU" label="Teléfono" value="#{choferBacking.selectedChofer.telefono}"
+							required="true" />
+
+						<h:outputLabel for="txtDireccionEC" value="Dirección: *" />
+						<p:inputText id="txtDireccionEC" label="Dirección" value="#{choferBacking.selectedChofer.direccion}" required="true" />
+
+						<h:outputLabel for="menuLicenciaEC" value="Tipo Licencia: *" />
+						<p:selectOneMenu id="menuLicenciaEC" value="#{choferBacking.selectedChofer.tipoLicencia}" label="Licencia"
+                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+          					 
+          					  <f:selectItem itemValue="C" itemLabel="C"/>
+          					  <f:selectItem itemValue="C1" itemLabel="C1"/>
+          					  <f:selectItem itemValue="D" itemLabel="D"/>
+          					  <f:selectItem itemValue="D1" itemLabel="D1"/>
+          					  <f:selectItem itemValue="E" itemLabel="E"/>
+          					  <f:selectItem itemValue="E1" itemLabel="E1"/>
+          					  <f:selectItem itemValue="A1" itemLabel="A1"/>
+          					 
+        				</p:selectOneMenu>
+						
+						<h:outputLabel for="menuResctriccionEC" value="Restricción noche: *" />
+						<p:selectOneMenu id="menuResctriccionEC" value="#{choferBacking.selectedChofer.restriccionNoche}" label="Licencia">         					 
+          					  <f:selectItem itemValue="S" itemLabel="SI"/>
+          					  <f:selectItem itemValue="N" itemLabel="NO"/>          					 
+        				</p:selectOneMenu>
+						<f:facet name="footer">
+							<p:commandButton id="btnGuardarEdicion" value="Guardar" actionListener="#{choferBacking.actualizarChofer()}"
+								update=":frmEditChofer :formEdit" />
+							<p:commandButton id="btnCancelarEdicion" value="Cancelar" onclick="dlgEditChofer.hide()" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

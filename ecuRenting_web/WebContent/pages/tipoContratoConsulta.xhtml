@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="../../template/common/layout.xhtml">
+		<ui:define name="title">LOG :: Consulta Choferes</ui:define>
+		<ui:define name="content">
+			<h2 class="ui-state-default">Consulta de Choferes</h2>
+			<h:form id="formEdit">
+			
+			<p:growl id="messages" showDetail="true" />
+				<p:tooltip />
+				
+				<p:dataTable id="dataTable" var="chofer" value="#{choferBacking.choferes}" paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+
+					<p:ajax event="rowToggle" listener="#{choferBacking.onRowToggle}" update=":formEdit:messages" />
+					
+					<p:column>
+						<p:rowToggler />
+					</p:column>
+					
+					
+					<p:column sortBy="#{chofer.id}" headerText="Código" filterBy="#{chofer.id}" filterMatchMode="contains">
+						<h:outputText value="#{chofer.id}" />
+					</p:column>
+					
+						
+					<p:column sortBy="#{chofer.nombre}" headerText="Nombre" filterBy="#{chofer.nombre}"
+						filterMatchMode="contains">
+						<h:outputText value="#{chofer.nombre}" />
+					</p:column>
+
+					<p:column sortBy="#{chofer.cedula}" headerText="Cédula" filterBy="#{chofer.cedula}"
+						filterMatchMode="contains">
+						<h:outputText value="#{chofer.cedula}" />
+					</p:column>
+					
+					<p:rowExpansion>
+						<h:panelGrid id="display" columns="2" cellpadding="4" style="width:300px;" styleClass="grid expandableGrid">
+
+				
+							<h:outputText value="Nombre:" />
+							<h:outputText id="nombre" value="#{chofer.nombre}" />
+
+							<h:outputText value="Cédula:" />
+							<h:outputText id="cedula" value="#{chofer.cedula}" />
+
+							<h:outputText value="Teléfono:" />
+							<h:outputText id="telefono" value="#{chofer.telefono}" />
+
+							<h:outputText value="Dirección:" />
+							<h:outputText id="direccion" value="#{chofer.direccion}" />
+
+							<h:outputText value="Tipo Licencia:" />
+							<h:outputText id="licencia" value="#{chofer.tipoLicencia}" />
+							
+							<h:outputText value="Restriccion Noche:" />
+							<h:outputText id="restriccionNoche" value="#{chofer.restriccionNoche}" />
+							
+								</h:panelGrid>
+					</p:rowExpansion>
+					
+					
+				</p:dataTable>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
