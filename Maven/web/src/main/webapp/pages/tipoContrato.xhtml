@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition template="/templates/template.xhtml">
+	
+	<ui:define name="content">
+	   	<h:form id = "tipoContratoForm">
+			<p:layout style="min-width:400px;min-height:500px;">
+			    <p:layoutUnit position="west" resizable="true" size="350" minSize="40" maxSize="400">
+			        
+			        <f:facet name="header">
+			            <p:outputPanel>
+			                <h:outputText value="Busqueda Tipo Contrato" />			                
+			            </p:outputPanel>
+			        </f:facet>
+			        
+			        <h:panelGrid   columns="2" cellpadding="2" style="margin:0 auto;" >
+				        <h:outputText value="Fecha de Inicio" />
+						<p:calendar timeZone="#{timeZone.zone}" value="#{tipoContratoBean.tipoContrato.tipDiaInicio}" 
+						locale="es" id="calendarDate1ToSearch" pattern="yyyy-MM-dd"  />
+						
+				        <h:outputText value="Fecha de Fin" />
+				        <p:calendar timeZone="#{timeZone.zone}" value="#{tipoContratoBean.tipoContrato.tipDiaFinal}" 
+						locale="es" id="calendarDate2ToSearch" pattern="yyyy-MM-dd"  />				    
+				    	<center>
+				        	<p:commandButton value="Buscar" actionListener="#{tipoContratoBean.buscar()}"/>
+				        </center>    
+				    </h:panelGrid>
+				    
+			    </p:layoutUnit>
+			 
+			    <p:layoutUnit position="center">
+			    
+			    	
+			       <p:dataTable id="tablaUsuario" var="contrato" value="#{tipoContratoBean.list}">
+			       
+	   				<p:growl id="messages" showDetail="true"/>
+			       		<f:facet name="header">
+				            <p:outputPanel>
+				                <p:commandButton value="Nuevo"  icon="ui-icon-circle-plus" onclick="dlg2.show();" />
+				            </p:outputPanel>
+				        </f:facet>
+ 
+					    <p:column headerText="Fecha de Inicio">
+					        <h:outputText value="#{contrato.tipDiaInicio}" />
+					    </p:column>
+					 
+					    <p:column headerText="Fecha de Final">
+					        <h:outputText value="#{contrato.tipDiaFinal}" />
+					    </p:column>
+					    <p:column>
+							<p:menuButton value="Options">
+								<p:menuitem value="Actualizar" actionListener="#{tipoContratoBean.actualizar()}"
+									update="messages" icon="ui-icon-disk" />
+								<p:menuitem value="Eliminar"
+										actionListener="#{tipoContratoBean.eliminar()}" update="message" icon="ui-icon-trash">
+										<p:confirm header="Confirmation" message="Esta seguro?"
+											icon="ui-icon-alert" />
+								</p:menuitem>
+							</p:menuButton>
+						</p:column>
+
+
+
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+							<p:commandButton value="Si" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</p:dataTable>
+					
+					<p:dialog id="modal1" header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
+					    <h:outputText value="This is a Modal Dialog." />
+					</p:dialog>
+
+				</p:layoutUnit>
+			</p:layout>
+
+		</h:form>
+	</ui:define>	
+</ui:composition>
+</html>	
